@@ -15,7 +15,7 @@ This is the current goal for the database.
 # Planned Routes
 ## /
  * page for not logged in users
- * shows basics of page and has demo button
+ * conatins information about the website and has demo button
 ## Home
  * link to events and groups
 ## Events
