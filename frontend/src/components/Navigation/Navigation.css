@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    padding-bottom: 0.5em;
+    border-bottom: 2px solid lightgray;
+}
+
+.nav-link {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-acc-links > a {
+    padding-right: 1em;
+}
