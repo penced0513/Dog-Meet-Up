@@ -19,7 +19,7 @@ This is the current goal for the database.
 ## Home
  * link to events and groups
 ## Events
- * displays events and some sorts
+ * displays events (and some sorts)
 	* date
 	* location
 	* name
