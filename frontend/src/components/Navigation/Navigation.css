@@ -3,13 +3,13 @@ body {
     padding: 0;
 }
 
-.navbar {
+#navbar {
     padding-bottom: 0.5em;
     border-bottom: 2px solid lightgray;
     min-height: 3rem;
 }
 
-.navbar a {
+#navbar a {
     font-size: 1.5rem;
 }
 .nav-link {

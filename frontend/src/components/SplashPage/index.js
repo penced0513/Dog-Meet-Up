@@ -1,4 +1,3 @@
-import  {  useEffect } from 'react';
 import './SplashPage.css';
 import { NavLink, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
