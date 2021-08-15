@@ -1,0 +1,33 @@
+.splash-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.splash-header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.splash-header-container > h1 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: blue
+}
+
+.splash-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+}
+
+.splash-card-img {
+    max-width: 50%;
+    height: auto;
+}
+
+.splash-options-container {
+    display: flex;
+}
