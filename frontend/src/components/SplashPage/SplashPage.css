@@ -11,9 +11,17 @@
 }
 
 .splash-header-container > h1 {
-    font-size: 1.875rem;
+    font-size: 3rem;
     font-weight: 600;
-    color: blue
+    margin-top: 1rem;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.splash-header-container > p {
+    font-size: 1.875rem;
+    margin: 1.5rem;
+    text-align: center;
 }
 
 .splash-card {
@@ -23,11 +31,24 @@
     width: 30%;
 }
 
+.splash-card > h2 {
+    font-size: 3rem;
+    text-align: center;
+    margin: 1rem
+}
+
+.splash-card > p {
+    font-size: 2rem;
+    text-align: center;
+    margin: 1rem;
+}
+
 .splash-card-img {
-    max-width: 50%;
+    max-width: 75%;
     height: auto;
 }
 
 .splash-options-container {
     display: flex;
+    justify-content: space-between;
 }

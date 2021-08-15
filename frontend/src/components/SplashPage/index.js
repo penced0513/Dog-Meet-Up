@@ -19,7 +19,7 @@ export default function SplashPage () {
                     <p>Events are happening for any doggie activity you can think of. Find some now!</p>
                 </div>
                 <div className="splash-start-container splash-card">
-                <img className="splash-card-img" src="https://photos.bringfido.com/photo/2010/10/09/Shebas_CT_hike_010.jpg?size=tile&density=2x" alt="high five!"></img>
+                <img className="splash-card-img" src="https://i.insider.com/59e8ab6449e1cf73038b4648?width=700" alt="high five!"></img>
                     <h2>Start a group</h2>
                     <p>You don't have to be an expert to gether people together and plan meetups with your furry friends</p>
                 </div>
