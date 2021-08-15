@@ -1,11 +1,32 @@
+import  {  useEffect } from 'react';
 import './SplashPage.css';
+import { NavLink, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import * as sessionActions from '../../store/session';
+
+
 
 export default function SplashPage () {
+    const dispatch = useDispatch()
+    function loginDemo () {
+        return dispatch(sessionActions.login({ credential:"demo@user.io", password:"password" }))
+    };
+
+    const sessionUser = useSelector(state => state.session.user);
+    if (sessionUser) {
+        return <Redirect to="/home" />
+    }
+     
     return (
         <div className="splash-container">
+            <div className="user-acc-links splash-acc-links">
+                <NavLink to="/login">Log In</NavLink>
+                <NavLink to="/signup">Sign Up</NavLink>
+                <NavLink to="" onClick={loginDemo}>Demo</NavLink>
+             </div>
             <div className="splash-header-container">
                 <h1>How DoggieMeetup works</h1>
-                 <p>Meet new people with furry bestfriends through online and in-person events. It's free to create an account.</p>
+                 <p>Meet new people with furry best friends through online and in-person events. It's free to create an account.</p>
             </div>
             <div className="splash-options-container">
                 <div className="splash-find-container splash-card">
