@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     owner: DataTypes.INTEGER,
     breed: DataTypes.STRING,
     weight: DataTypes.INTEGER,
-    image: DataTypes.TEXT
+    image: DataTypes.TEXT,
+    name: DataTypes.STRING,
   }, {});
   Pet.associate = function(models) {
     // associations can be defined here
