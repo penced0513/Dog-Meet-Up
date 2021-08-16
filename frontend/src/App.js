@@ -9,6 +9,7 @@ import Navigation from "./components/Navigation";
 import SplashPage from "./components/SplashPage";
 import HomePage from "./components/HomePage";
 import GroupsPage from "./components/GroupsPage";
+import IndividualGroup from './components/IndividualGroup'
 
 function App() {
   const dispatch = useDispatch();
@@ -36,9 +37,13 @@ function App() {
             <Navigation isLoaded={isLoaded} />
             <SignupFormPage />
           </Route>
-          <Route path="/groups">
+          <Route exact path="/groups">
             <Navigation isLoaded={isLoaded} />
             <GroupsPage />
+          </Route>
+          <Route path="/groups/:groupId">
+            <Navigation isLoaded={isLoaded} />
+            <IndividualGroup />
           </Route>
         </Switch>
       )}
