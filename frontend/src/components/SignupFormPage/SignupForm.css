@@ -57,3 +57,12 @@
     text-decoration: none;
     color: blue;
 }
+
+.signup-errors-container {
+    padding: 0;
+    margin: 0;
+}
+
+.signup-errors-container li{
+    list-style-type: none;
+}
