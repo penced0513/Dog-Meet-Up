@@ -4,7 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.STRING
   }, {});
   Group.associate = function(models) {
-    // associations can be defined here
+    const columnMapping = {
+      through: "UserGroups",
+      foreignKey: "groupId",
+      otherKey: "userId",
+    }
+    Group.belongsToMany(models.User, columnMapping)
   };
   return Group;
 };
