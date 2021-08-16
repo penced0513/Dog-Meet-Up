@@ -1,7 +1,7 @@
 // import { NavLink } from 'react-router-dom';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom"
+import { NavLink, useParams } from "react-router-dom"
 import { fetchGroups } from "../../store/groupReducer";
 
 const IndividualGroup = () => {
@@ -16,8 +16,8 @@ const IndividualGroup = () => {
     return (
         <div>
             <div>this is now the individual group page</div>
-            <div>Back to groups</div>
-            <div>Join/Leave Group</div>
+            <NavLink to="/groups">Back to Groups</NavLink>
+            <div>Join/Leave Group (based on state variable? which checks if you are in or not)</div>
             <div>
                 <img src={group?.img} alt="group"></img>
             </div>

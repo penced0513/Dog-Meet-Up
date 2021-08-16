@@ -1,10 +1,16 @@
 import { csrfFetch } from "./csrf";
 
 const GET_GROUPS = 'group/getGroups'
+const ADD_GROUP = 'group/addGroup'
 
 export const getGroups = (groups) => {
     return { type: GET_GROUPS, groups };
-  };
+};
+
+export const addGroup = (name, imgURL, location, description, userId) => {
+    const payload = {name, imgURL, location, description, userId}
+    return { type: GET_GROUPS, payload };
+};
 
 export const fetchGroups = () => async (dispatch) => {
     const res = await csrfFetch('/api/groups')
@@ -20,6 +26,8 @@ const groupReducer = ( state= {}, action) => {
                 newState[group.id] = group
             });
             return newState
+        case ADD_GROUP: 
+        
         default: 
             return state;
     }

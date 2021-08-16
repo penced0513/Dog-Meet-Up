@@ -10,6 +10,7 @@ import SplashPage from "./components/SplashPage";
 import HomePage from "./components/HomePage";
 import GroupsPage from "./components/GroupsPage";
 import IndividualGroup from './components/IndividualGroup'
+import CreateGroup from "./components/CreateGroupForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +41,10 @@ function App() {
           <Route exact path="/groups">
             <Navigation isLoaded={isLoaded} />
             <GroupsPage />
+          </Route>
+          <Route exact path="/groups/new">
+            <Navigation isLoaded={isLoaded} />
+            <CreateGroup />
           </Route>
           <Route path="/groups/:groupId">
             <Navigation isLoaded={isLoaded} />
