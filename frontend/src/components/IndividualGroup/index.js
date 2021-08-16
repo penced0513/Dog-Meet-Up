@@ -16,6 +16,8 @@ const IndividualGroup = () => {
     return (
         <div>
             <div>this is now the individual group page</div>
+            <div>Back to groups</div>
+            <div>Join/Leave Group</div>
             <div>
                 <img src={group?.img} alt="group"></img>
             </div>
