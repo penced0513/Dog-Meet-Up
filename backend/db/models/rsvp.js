@@ -6,7 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     petId: DataTypes.INTEGER
   }, {});
   Rsvp.associate = function(models) {
-    // associations can be defined here
+    Rsvp.belongsTo(models.Event, {foreignKey: "eventId"} )
+    Rsvp.belongsTo(models.User, {foreignKey: "userId"})
+    Rsvp.belongsTo(models.Pet, {foreignKey: "petId"})
   };
   return Rsvp;
 };

@@ -93,7 +93,10 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: "groupId",
       foreignKey: "userId",
     }
+    User.hasMany(models.Rsvp, {foreignKey: "userId"})
+    User.hasMany(models.Event, {foreignKey: "hostId"})
     User.belongsToMany(models.Group, columnMapping)
+    User.hasMany(models.Pet, {foreignKey: "owner"})
   };
   return User;
 };

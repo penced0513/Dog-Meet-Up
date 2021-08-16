@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       owner: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: "Users"}
       },
       breed: {
         type: Sequelize.STRING

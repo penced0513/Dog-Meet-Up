@@ -9,13 +9,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       hostId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: "Users"}
       },
       venueId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: "Venues"}
       },
       categoryId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: "Groups"}
       },
       name: {
         type: Sequelize.STRING

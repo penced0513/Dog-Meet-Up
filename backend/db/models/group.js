@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: "userId",
     }
     Group.belongsToMany(models.User, columnMapping)
+    Group.hasMany(models.Event, {foreignKey: "categoryId"})
   };
   return Group;
 };
