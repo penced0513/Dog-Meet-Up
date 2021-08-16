@@ -1,7 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
-    type: DataTypes.STRING
+    name: DataTypes.STRING,
+    img: DataTypes.TEXT,
+    location: DataTypes.STRING,
+    description: DataTypes.TEXT,
   }, {});
   Group.associate = function(models) {
     const columnMapping = {

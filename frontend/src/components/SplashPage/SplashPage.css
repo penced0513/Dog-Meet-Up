@@ -31,10 +31,12 @@
     width: 30%;
 }
 
-.splash-card > h2 {
+.splash-card-header {
     font-size: 3rem;
     text-align: center;
-    margin: 1rem
+    margin: 1rem;
+    text-decoration: none;
+    color: blue;
 }
 
 .splash-card > p {
