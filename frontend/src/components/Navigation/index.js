@@ -8,7 +8,8 @@ import './Navigation.css';
 
 function Navigation({ isLoaded }){
   const dispatch = useDispatch()
-  function loginDemo () {
+  function loginDemo (e) {
+    e.preventDefault()
     return dispatch(sessionActions.login({ credential:"demo@user.io", password:"password" }))
   };
   const sessionUser = useSelector(state => state.session.user);
