@@ -8,6 +8,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SplashPage from "./components/SplashPage";
 import HomePage from "./components/HomePage";
+import GroupsPage from "./components/GroupsPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +35,10 @@ function App() {
           <Route path="/signup">
             <Navigation isLoaded={isLoaded} />
             <SignupFormPage />
+          </Route>
+          <Route path="/groups">
+            <Navigation isLoaded={isLoaded} />
+            <GroupsPage />
           </Route>
         </Switch>
       )}
