@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/penced0513/solo-project/issues"
   },
-  "homepage": "https://github.com/penced0513/solo-project#readme"
+  "homepage": "https://github.com/penced0513/solo-project#readme",
+  "dependencies": {
+    "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.2.0"
+  }
 }
