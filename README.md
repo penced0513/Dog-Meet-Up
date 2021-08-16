@@ -2,7 +2,7 @@
 
 # Database Schema
 This is the current goal for the database.
-<img src="https://i.imgur.com/yTCjf0r.png">
+<img src="https://i.imgur.com/IniCUMF.png">
 
 # MVP Features
 ## Create and Join Groups
