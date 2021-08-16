@@ -1,11 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as sessionActions from '../../store/session';
 import ProfileButton from './ProfileButton';
 
 import './Navigation.css';
 
 function Navigation({ isLoaded }){
+  const dispatch = useDispatch()
+  function loginDemo () {
+    return dispatch(sessionActions.login({ credential:"demo@user.io", password:"password" }))
+  };
   const sessionUser = useSelector(state => state.session.user);
 
   let sessionLinks;
@@ -18,6 +23,7 @@ function Navigation({ isLoaded }){
       <div className="user-acc-links">
         <NavLink to="/login">Log In</NavLink>
         <NavLink to="/signup">Sign Up</NavLink>
+        <NavLink to="" onClick={loginDemo}>Demo</NavLink>
       </div>
     );
   }
