@@ -15,8 +15,8 @@ export default function GroupsPage () {
     return (
         <div>
             <div>
-                <div>Groups</div>
-                <div>Events</div>
+                <div>Groups (navlink to groups)</div>
+                <div>Events (navlink to events)</div>
             </div>
             {groups.map(group => {
                 return <GroupCard group={group} key={group.id}></GroupCard>}
