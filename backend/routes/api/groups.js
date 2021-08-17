@@ -18,4 +18,12 @@ router.post('/new', restoreUser, asyncHandler(async(req,res) => {
     return res.json(group)
 }))
 
+router.put('/:id', restoreUser, asyncHandler(async(req,res) => {
+    const {id} = req.params
+    const { name, imgURL, location, description, userId} = req.body
+    const group = await Group.findByPk(id)
+    await group.update({ name, img:imgURL, location, description, organizer: userId})
+    return res.json(group)
+}))
+
 module.exports = router;

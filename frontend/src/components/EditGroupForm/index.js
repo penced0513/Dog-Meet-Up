@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
 
 import { editGroup } from '../../store/groupReducer';
 
-const EditGroup = (group) => {
+const EditGroup = ({group, hideForm}) => {
     const dispatch = useDispatch();
-    const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
     const [name, setName] = useState(group.name);
     const [imgURL, setImgURL] = useState(group.img);
@@ -25,16 +23,11 @@ const EditGroup = (group) => {
         if (errors.length) {
             setErrors(validationErrors)
         } else {
-            const editedGroup = await dispatch(editGroup(name, imgURL, location, description, sessionUser.id))
+            const editedGroup = await dispatch(editGroup(name, imgURL, location, description, sessionUser.id, group.id))
             if (editedGroup) {
-              history.push(`/groups/${editedGroup.id}`)
+              hideForm()
             }
         }
-    }
-
-    // check later to see if it works
-    if (sessionUser !== group.organizer) {
-        history.push(`/groups/${group.id}`)
     }
 
     return (

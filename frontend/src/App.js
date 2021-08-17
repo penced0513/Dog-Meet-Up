@@ -11,7 +11,6 @@ import HomePage from "./components/HomePage";
 import GroupsPage from "./components/GroupsPage";
 import IndividualGroup from './components/IndividualGroup'
 import CreateGroup from "./components/CreateGroupForm";
-import EditGroup from "./components/EditGroupForm";
 
 function App() {
   const dispatch = useDispatch();

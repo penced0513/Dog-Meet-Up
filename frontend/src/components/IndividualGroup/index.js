@@ -21,7 +21,7 @@ const IndividualGroup = () => {
 
     if (showEditGroupForm){
         content = (
-            <EditGroupForm />
+            <EditGroupForm group={group} hideForm={() => setShowEditGroupForm(false)}/>
         )
     } else {
         content = (

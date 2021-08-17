@@ -31,9 +31,9 @@ export const createGroup = (name, imgURL, location, description, userId) => asyn
     }
 }
 
-export const editGroup = (name, imgURL, location, description, userId) => async dispatch => {
+export const editGroup = (name, imgURL, location, description, userId, groupId) => async dispatch => {
     const payload = {name, imgURL, location, description, userId}
-    const res = await csrfFetch('/api/groups/new', {
+    const res = await csrfFetch(`/api/groups/${groupId}`, {
         method: 'put',
         headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify(payload) 
@@ -62,6 +62,9 @@ const groupReducer = ( state= {}, action) => {
             });
             return newState
         case POST_GROUP: 
+            newState[action.group.id] = action.group
+            return newState;
+        case PUT_GROUP: 
             newState[action.group.id] = action.group
             return newState;
         default: 
