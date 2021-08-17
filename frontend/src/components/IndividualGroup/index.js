@@ -36,8 +36,7 @@ const IndividualGroup = () => {
                     <h3>{group?.name}</h3>
                     <p>{group?.description}</p>
                 </div>
-                <button onClick={() => setShowEditGroupForm(true)}>
-                        Edit Group</button>
+                <button onClick={() => setShowEditGroupForm(true)}>Edit Group</button>
             </>
         )
     }

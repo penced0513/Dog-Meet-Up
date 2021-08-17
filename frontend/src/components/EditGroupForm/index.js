@@ -33,7 +33,7 @@ const EditGroup = (group) => {
     }
 
     // check later to see if it works
-    if (sessionUser != group.organizer) {
+    if (sessionUser !== group.organizer) {
         history.push(`/groups/${group.id}`)
     }
 
