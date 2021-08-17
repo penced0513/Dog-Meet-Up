@@ -26,4 +26,10 @@ router.put('/:id', restoreUser, asyncHandler(async(req,res) => {
     return res.json(group)
 }))
 
+router.delete('/:id', restoreUser, asyncHandler(async(req,res) => {
+    const {id} = req.params
+    const group = await Group.findByPk(id)
+    await group.destroy()
+    res.json("Deleted")
+}))
 module.exports = router;

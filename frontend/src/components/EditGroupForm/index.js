@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-import { editGroup } from '../../store/groupReducer';
+import { editGroup} from '../../store/groupReducer';
 
 const EditGroup = ({group, hideForm}) => {
     const dispatch = useDispatch();
