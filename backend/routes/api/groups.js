@@ -32,4 +32,5 @@ router.delete('/:id', restoreUser, asyncHandler(async(req,res) => {
     await group.destroy()
     res.json("Deleted")
 }))
+
 module.exports = router;
