@@ -97,6 +97,7 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Event, {foreignKey: "hostId"})
     User.belongsToMany(models.Group, columnMapping)
     User.hasMany(models.Pet, {foreignKey: "owner"})
+    User.hasMany(models.Group, { foreignKey: "organizer"})
   };
   return User;
 };

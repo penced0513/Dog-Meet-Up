@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-
+import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
 
-import { addGroup } from '../../store/groupReducer';
+import { createGroup } from '../../store/groupReducer';
 
 const CreateGroup = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
     const [name, setName] = useState('');
     const [imgURL, setImgURL] = useState('');
@@ -15,9 +16,8 @@ const CreateGroup = () => {
     const [errors, setErrors] = useState([]);
   
   
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
       e.preventDefault();
-        // console.log(name, imgURL, location, description)
         const validationErrors = []
         if (name.length < 2) validationErrors.push("Name must be longer than 2 characters")
         if (location.length < 2) validationErrors.push("location must be longer than 2 characters")
@@ -25,7 +25,10 @@ const CreateGroup = () => {
         if (errors.length) {
             setErrors(validationErrors)
         } else {
-            dispatch(addGroup(name, imgURL, location, description, sessionUser.id))
+            const createdGroup = await dispatch(createGroup(name, imgURL, location, description, sessionUser.id))
+            if (createdGroup) {
+              history.push(`/groups/${createdGroup.id}`)
+            }
         }
     }
   

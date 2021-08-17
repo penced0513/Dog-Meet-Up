@@ -12,4 +12,10 @@ router.get('/', restoreUser, asyncHandler( async(req,res) => {
     return res.json(groups)
 }));
 
+router.post('/new', restoreUser, asyncHandler(async(req,res) => {
+    const { name, imgURL, location, description, userId} = req.body
+    const group = await Group.create({ name, img:imgURL, location, description, organizer: userId})
+    return res.json(group)
+}))
+
 module.exports = router;

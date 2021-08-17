@@ -1,4 +1,7 @@
 'use strict';
+
+const { sequelize } = require("../models");
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Groups', {
@@ -19,6 +22,10 @@ module.exports = {
       },
       location: {
         type: Sequelize.STRING
+      },
+      organizer: {
+        type: Sequelize.INTEGER,
+        references: { model: "Users"}
       },
       createdAt: {
         allowNull: false,

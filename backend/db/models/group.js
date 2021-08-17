@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     img: DataTypes.TEXT,
     location: DataTypes.STRING,
     description: DataTypes.TEXT,
+    organizer: DataTypes.INTEGER,
   }, {});
   Group.associate = function(models) {
     const columnMapping = {
@@ -14,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     Group.belongsToMany(models.User, columnMapping)
     Group.hasMany(models.Event, {foreignKey: "categoryId"})
+    Group.belongsTo(models.User, { foreignKey: "organizer"})
   };
   return Group;
 };
