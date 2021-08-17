@@ -19,6 +19,7 @@ function Navigation({ isLoaded }){
     sessionLinks = (
       <div>
         <NavLink to="/groups/new">Create a Group</NavLink>
+        <NavLink to="/groups">Groups</NavLink>
         <ProfileButton className="profile-btn" user={sessionUser} />
       </div>
     );
