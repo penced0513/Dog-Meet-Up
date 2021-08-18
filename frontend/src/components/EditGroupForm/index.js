@@ -46,7 +46,8 @@ const EditGroup = ({group, hideForm}) => {
               required
             />
           </label>
-          {imgURL && <div><div>Image Preview</div><img src={imgURL} alt=""></img></div>}
+          {imgURL && <div><div>Image Preview</div><img className="form-img-preview" src={imgURL} alt=""></img></div>}
+          {imgURL && <div><div>Image Preview for your Group</div><img className="form-img-preview-large" src={imgURL} alt=""></img></div>}
           <label>
             Image
             <input

@@ -1,0 +1,14 @@
+.form-img-preview {
+    width: 178px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.form-img-preview-large {
+    max-height: 337.5px;
+    max-width: 600px;
+    height: auto;
+    width: auto;
+    margin: 0;
+    padding: 0;
+}

@@ -4,7 +4,6 @@ const asyncHandler = require('express-async-handler');
 const { restoreUser } = require('../../utils/auth');
 const { Group, UserGroup } = require('../../db/models');
 
-
 const router = express.Router();
 
 router.get('/', restoreUser, asyncHandler( async(req,res) => {
@@ -13,14 +12,20 @@ router.get('/', restoreUser, asyncHandler( async(req,res) => {
 }));
 
 router.post('/new', restoreUser, asyncHandler(async(req,res) => {
-    const { name, imgURL, location, description, userId} = req.body
+    let { name, imgURL, location, description, userId} = req.body
+    if (!imgURL) {
+        imgURL = "https://www.vhv.rs/dpng/d/487-4871907_grey-x-icon-png-transparent-png.png"
+    }
     const group = await Group.create({ name, img:imgURL, location, description, organizer: userId})
     return res.json(group)
 }))
 
 router.put('/:id', restoreUser, asyncHandler(async(req,res) => {
     const {id} = req.params
-    const { name, imgURL, location, description, userId} = req.body
+    let { name, imgURL, location, description, userId} = req.body
+    if (!imgURL) {
+        imgURL = "https://www.vhv.rs/dpng/d/487-4871907_grey-x-icon-png-transparent-png.png"
+    }
     const group = await Group.findByPk(id)
     await group.update({ name, img:imgURL, location, description, organizer: userId})
     return res.json(group)

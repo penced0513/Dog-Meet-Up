@@ -1,0 +1,35 @@
+.group-img {
+    max-height: 337.5px;
+    max-width: 600px;
+}
+
+.group-page-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.group-info-container {
+    display: flex;
+    padding-bottom: 0.75em;
+    border-bottom: 1px solid lightgray;
+    justify-content: center;
+    align-content: center;
+}
+
+.group-info-right-side {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1em;
+}
+
+.group-name-location {
+    height: 90%;
+}
+.user-join-leave-btn-container {
+    justify-self: flex-end;
+}
+
+.group-page-description {
+    align-self: center;
+    text-align: center;
+}

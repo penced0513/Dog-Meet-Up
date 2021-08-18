@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchGroups } from "../../store/groupReducer";
 import GroupCard from '../GroupsAndEventsCard'
+import './groupsPage.css';
 
 export default function GroupsPage () {
     const dispatch = useDispatch()
@@ -13,10 +14,10 @@ export default function GroupsPage () {
         dispatch(fetchGroups())
     }, [dispatch])
     return (
-        <div>
+        <div className="groups-page-container">
             { groups.map(group => {
-                return <GroupCard group={group} key={group.id}></GroupCard>}
-            )}
+                return <GroupCard group={group} key={group.id}></GroupCard>
+            })}
         </div>
     )
 }
