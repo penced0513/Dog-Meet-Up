@@ -1,0 +1,33 @@
+.card-image-container {
+    width: 178px;
+    height: 100px;
+}
+
+.card-image-container > img {
+    width: 178px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.card-information-container {
+    padding-left: 1em;
+}
+.card-container { 
+    display: flex;
+    padding: 0.5em 0;
+    border-top: 1px solid lightgray;
+    max-width: 640px;
+    max-height: 149.19px;
+}
+
+.groups-page-description {
+    max-width: 462px;
+    max-height: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.groups-page-desc-container {
+    max-height: 10%;
+}

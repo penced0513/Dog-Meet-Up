@@ -1,20 +1,20 @@
 // import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useParams, useHistory } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 
 import { fetchGroups } from "../../store/groupReducer";
 import EditGroupForm from '../EditGroupForm'
 import { deleteGroup, getUserGroups, joinGroup, leaveGroup } from "../../store/groupReducer";
+import './individualGroup.css'
 
 const IndividualGroup = () => {
     const history = useHistory()
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user);
     const sessionGroups = useSelector(state => state.group.joined)
-    const groups = useSelector(state => state.group.allGroups)
     const {groupId} = useParams()
-    const group = groups[groupId]
+    const group = useSelector(state => state.group.allGroups[groupId])
     const [showEditGroupForm, setShowEditGroupForm] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
     const [inGroup, setInGroup] = useState('')
@@ -28,8 +28,7 @@ const IndividualGroup = () => {
                     } else {
                         setInGroup(false)
                     }
-                })
-                
+                }) 
             }
         })
     },[dispatch, sessionUser, groupId, sessionGroups.userGroups, sessionGroups])
@@ -59,24 +58,36 @@ const IndividualGroup = () => {
         )
     } else {
         content = (
-            <>
-                <div>this is now the individual group page</div>
-                <NavLink to="/groups">Back to Groups</NavLink>
-                <div>
-                    <img src={group?.img} alt="group"></img>
+            <div className="group-page-container">
+                <div className="group-info-container">
+                    <div>
+                        <img className="group-img" src={group?.img} alt="group"></img>
+                    </div>
+                    <div className="group-info-right-side">
+                        <div className="group-name-location">
+                            <h1>{group?.name}</h1>
+                            <h3>{group?.location}</h3>
+                        </div>
+                        <div className="user-join-leave-btn-container">
+                            {!inGroup && <button className="join-leave-group" onClick={() => joinGroupButton()}>Join Group</button>}
+                            {inGroup && <button className="join-leave-group" onClick={() => leaveGroupButton()}>Leave Group</button>}
+                            {sessionUser?.id === group?.organizer &&
+                            <div>
+                            <button onClick={() => setShowEditGroupForm(true)}>Edit Group</button>
+                            <button onClick={() => setShowDelete(true) }>Delete Group</button>
+                            {showDelete && <div><div>Are you sure you want to delete this group?</div>{confirmDelete}{cancelDelete}</div>}
+                            </div>}
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <h3>{group?.name}</h3>
+                <div className="group-page-description">
+                    <h2>What we're about</h2>
                     <p>{group?.description}</p>
                 </div>
-                <button onClick={() => setShowEditGroupForm(true)}>Edit Group</button>
-                <button onClick={() => setShowDelete(true) }>Delete Group</button>
-                {showDelete && <div><div>Are you sure you want to delete this group?</div>{confirmDelete}{cancelDelete}</div>}
-                <div className="user-join-leave-btn-container">
-                    {!inGroup && <button className="join-leave-group" onClick={() => joinGroupButton()}>Join Group</button>}
-                    {inGroup && <button className="join-leave-group" onClick={() => leaveGroupButton()}>Leave Group</button>}
-                </div>
-            </>
+                <div>Todo... add events on this page</div>
+
+
+            </div>
         )
     }
 
