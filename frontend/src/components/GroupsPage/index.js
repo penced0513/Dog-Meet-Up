@@ -7,7 +7,7 @@ import GroupCard from '../GroupsAndEventsCard'
 export default function GroupsPage () {
     const dispatch = useDispatch()
     
-    const groups = useSelector((state) => Object.values(state.group))
+    const groups = useSelector((state) => Object.values(state.group.allGroups))
 
     useEffect( () => {
         dispatch(fetchGroups())

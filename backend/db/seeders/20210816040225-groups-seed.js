@@ -25,6 +25,6 @@ module.exports = {
 
       Example:
       */
-      return queryInterface.bulkDelete('Groups', null, {});
+      return queryInterface.bulkDelete('Groups', null, { truncate: true, cascade: true, restartIdentity: true });
   }
 };

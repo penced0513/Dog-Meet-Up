@@ -12,7 +12,7 @@ const IndividualGroup = () => {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user);
     const sessionGroups = useSelector(state => state.group.joined)
-    const groups = useSelector(state => state.group)
+    const groups = useSelector(state => state.group.allGroups)
     const {groupId} = useParams()
     const group = groups[groupId]
     const [showEditGroupForm, setShowEditGroupForm] = useState(false)

@@ -98,28 +98,27 @@ export const fetchGroups = () => async (dispatch) => {
     dispatch(getGroups(groups))
 }
 
-const groupReducer = ( state= { joined: {}}, action) => {
+const groupReducer = ( state= { allGroups: {}, joined: {}}, action) => {
     let newState = { ...state }
     switch (action.type) {
         case GET_GROUPS:
             Object.values(action.groups).forEach(group => {
-                newState[group.id] = group
+                newState.allGroups[group.id] = group
             });
             return newState
         case POST_GROUP: 
-            newState[action.group.id] = action.group
+            newState.allGroups[action.group.id] = action.group
             return newState;
         case PUT_GROUP: 
-            newState[action.group.id] = action.group
+            newState.allGroups[action.group.id] = action.group
             return newState;
         case DELETE_GROUP:
-            delete newState[action.groupId]
+            delete newState.allGroups[action.groupId]
             return newState
         case SET_USER_GROUPS:
             newState = {...state}
             if (!action.group) 
             action.groups.forEach(group => {
-                console.log(group)
                 newState.joined[group.id] = group
             })
             return newState;
