@@ -4,7 +4,8 @@ const GET_GROUPS = 'group/getGroups'
 const POST_GROUP = 'group/postGroup'
 const PUT_GROUP = 'group/putGroup'
 const DELETE_GROUP = 'group/deleteGroup'
-const SET_USER_GROUPS = 'session/setUserGroups'
+const SET_USER_GROUPS = 'group/setUserGroups'
+const DELETE_USER_GROUPS = 'group/deleteUserGroups'
 
 export const getGroups = (groups) => {
     return { type: GET_GROUPS, groups };
@@ -29,6 +30,12 @@ const setUserGroups = (groups) => {
     }
 }
 
+const deleteUserGroups = (groupId) => {
+    return {
+      type: DELETE_USER_GROUPS,
+      groupId
+    }
+}
 export const createGroup = (name, imgURL, location, description, userId) => async dispatch => {
     const payload = {name, imgURL, location, description, userId}
     const res = await csrfFetch('/api/groups/new', {
@@ -92,6 +99,18 @@ export const joinGroup = (userId, groupId) => async dispatch => {
     } 
 }
 
+export const leaveGroup = (userId, groupId) => async dispatch => {
+    const res = await csrfFetch(`/api/users/${userId}/groups/${groupId}`, {
+        method: 'delete',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({userId, groupId}) 
+    })
+    if (res.ok) {
+      const groupId = await res.json()
+      dispatch(deleteUserGroups(Object.values(groupId)))
+      return groupId;
+    } 
+}
 export const fetchGroups = () => async (dispatch) => {
     const res = await csrfFetch('/api/groups')
     const groups = await res.json();
@@ -121,6 +140,10 @@ const groupReducer = ( state= { allGroups: {}, joined: {}}, action) => {
                 newState.joined[group.groupId] = group
             })
             return newState;
+        case DELETE_USER_GROUPS: 
+            newState = {...state}
+            delete newState.joined[action.groupId]
+            return newState
         default: 
             return state;
     }

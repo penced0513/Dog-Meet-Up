@@ -5,7 +5,7 @@ import { NavLink, useParams, useHistory } from "react-router-dom"
 
 import { fetchGroups } from "../../store/groupReducer";
 import EditGroupForm from '../EditGroupForm'
-import { deleteGroup, getUserGroups, joinGroup } from "../../store/groupReducer";
+import { deleteGroup, getUserGroups, joinGroup, leaveGroup } from "../../store/groupReducer";
 
 const IndividualGroup = () => {
     const history = useHistory()
@@ -32,7 +32,7 @@ const IndividualGroup = () => {
                 
             }
         })
-    }, [dispatch, sessionUser, groupId, sessionGroups. userGroups, sessionGroups])
+    },[dispatch, sessionUser, groupId, sessionGroups.userGroups, sessionGroups])
 
     let content = null
 
@@ -49,7 +49,7 @@ const IndividualGroup = () => {
     }
 
     const leaveGroupButton = async() => {
-        // dispatch leave group
+        await dispatch(leaveGroup(sessionUser.id, groupId))
         setInGroup(false)
     }
 
