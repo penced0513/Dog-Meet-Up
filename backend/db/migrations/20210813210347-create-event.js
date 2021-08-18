@@ -34,6 +34,9 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
       },
+      img: {
+        type: Sequelize.TEXT
+      },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,

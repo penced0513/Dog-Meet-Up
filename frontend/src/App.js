@@ -52,6 +52,7 @@ function App() {
             <IndividualGroup />
           </Route>
           <Route path="/events">
+            <Navigation isLoaded={isLoaded} />
             <EventsPage />
           </Route>
         </Switch>

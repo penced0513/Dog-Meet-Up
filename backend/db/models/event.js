@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     categoryId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     date: DataTypes.DATE,
-    capacity: DataTypes.INTEGER
+    capacity: DataTypes.INTEGER,
+    img: DataTypes.TEXT,
   }, {});
   Event.associate = function(models) {
     Event.belongsTo(models.Group, {foreignKey: "categoryId"})
