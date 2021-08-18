@@ -43,13 +43,21 @@ const IndividualGroup = () => {
     const cancelDelete = <button onClick={() => setShowDelete(false)}>Cancel</button>
 
     const joinGroupButton = async() => {
-        await dispatch(joinGroup(sessionUser.id, groupId))
-        setInGroup(true)
+        if (sessionUser) {
+            await dispatch(joinGroup(sessionUser.id, groupId))
+            setInGroup(true)
+        } else {
+            history.push('/login')
+        }
     }
 
     const leaveGroupButton = async() => {
-        await dispatch(leaveGroup(sessionUser.id, groupId))
-        setInGroup(false)
+        if (sessionUser) {
+            await dispatch(leaveGroup(sessionUser.id, groupId))
+            setInGroup(false)
+        } else {
+            history.push('/login')
+        }
     }
 
     if (showEditGroupForm){
