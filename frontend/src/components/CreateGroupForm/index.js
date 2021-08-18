@@ -16,6 +16,9 @@ const CreateGroup = () => {
     const [description, setDescription] = useState('')
     const [errors, setErrors] = useState([]);
   
+    if (!sessionUser) {
+      history.push('/login')
+    }
   
     const handleSubmit = async(e) => {
       e.preventDefault();

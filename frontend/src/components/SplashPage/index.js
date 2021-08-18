@@ -40,7 +40,7 @@ export default function SplashPage () {
                 </div>
                 <div className="splash-start-container splash-card">
                 <img className="splash-card-img" src="https://i.insider.com/59e8ab6449e1cf73038b4648?width=700" alt="high five!"></img>
-                    <h2 className="splash-card-header">Start a group</h2>
+                    <NavLink className="splash-card-header" to="/groups/new">Start a Group</NavLink>
                     <p>You don't have to be an expert to gether people together and plan meetups with your furry friends</p>
                 </div>
             </div>
