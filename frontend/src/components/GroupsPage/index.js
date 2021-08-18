@@ -14,7 +14,7 @@ export default function GroupsPage () {
     }, [dispatch])
     return (
         <div>
-            {groups.map(group => {
+            { groups.map(group => {
                 return <GroupCard group={group} key={group.id}></GroupCard>}
             )}
         </div>

@@ -2,7 +2,7 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 
 const { restoreUser } = require('../../utils/auth');
-const { Group } = require('../../db/models');
+const { Group, UserGroup } = require('../../db/models');
 
 
 const router = express.Router();
@@ -28,6 +28,10 @@ router.put('/:id', restoreUser, asyncHandler(async(req,res) => {
 
 router.delete('/:id', restoreUser, asyncHandler(async(req,res) => {
     const {id} = req.params
+    const userGroups = await UserGroup.findAll({where:{groupId: id}})
+    userGroups.forEach(async(group) => {
+        await group.destroy()
+    })
     const group = await Group.findByPk(id)
     await group.destroy()
     res.json("Deleted")

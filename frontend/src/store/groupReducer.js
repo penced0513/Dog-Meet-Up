@@ -60,6 +60,7 @@ export const editGroup = (name, imgURL, location, description, userId, groupId) 
 }
 
 export const deleteGroup = (groupId) => async dispatch => {
+
     const res = await csrfFetch(`/api/groups/${groupId}`, {
         method: 'delete',
     });
@@ -73,7 +74,7 @@ export const getUserGroups = (user) => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/groups`)
     if (res.ok) {
       const groups = await res.json()
-      dispatch(setUserGroups(groups))
+      await dispatch(setUserGroups(groups))
       return groups;
     }
 }
@@ -82,14 +83,13 @@ export const joinGroup = (userId, groupId) => async dispatch => {
     const res = await csrfFetch(`/api/users/${userId}/groups/${groupId}`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify(userId, groupId) 
+        body: JSON.stringify({userId, groupId}) 
     })
-
     if (res.ok) {
       const groups = await res.json()
-      dispatch(setUserGroups(groups))
+      dispatch(setUserGroups(Object.values(groups)))
       return groups;
-    }
+    } 
 }
 
 export const fetchGroups = () => async (dispatch) => {
@@ -117,9 +117,8 @@ const groupReducer = ( state= { allGroups: {}, joined: {}}, action) => {
             return newState
         case SET_USER_GROUPS:
             newState = {...state}
-            if (!action.group) 
             action.groups.forEach(group => {
-                newState.joined[group.id] = group
+                newState.joined[group.groupId] = group
             })
             return newState;
         default: 

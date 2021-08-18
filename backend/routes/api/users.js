@@ -45,9 +45,29 @@ router.post(
 
 router.get('/:userId/groups', restoreUser, asyncHandler(async(req,res) => {
   const {userId} = req.params
+  
   const userGroups = await UserGroup.findAll({where: {
       userId
   }})
-  return await res.json(userGroups)
+  
+  return res.json(userGroups)
 }))
+
+router.post('/:userId(\\d+)/groups/:groupId(\\d+)', restoreUser, asyncHandler(async(req,res) => {
+  const {userId, groupId} = req.params
+  await UserGroup.create({ userId, groupId})
+  return res.json("created")
+}))
+
+
+router.delete('/:userId/groups/:groupId', restoreUser, asyncHandler(async(req,res) => {
+  const {userId, groupId} = req.params
+  const userGroup = await UserGroup.findOne({where: {
+      userId,
+      groupId
+  }})
+  await userGroup.destroy()
+  return res.json("deleted")
+}))
+
 module.exports = router;

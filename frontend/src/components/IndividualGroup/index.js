@@ -5,7 +5,7 @@ import { NavLink, useParams, useHistory } from "react-router-dom"
 
 import { fetchGroups } from "../../store/groupReducer";
 import EditGroupForm from '../EditGroupForm'
-import { deleteGroup, getUserGroups } from "../../store/groupReducer";
+import { deleteGroup, getUserGroups, joinGroup } from "../../store/groupReducer";
 
 const IndividualGroup = () => {
     const history = useHistory()
@@ -20,16 +20,19 @@ const IndividualGroup = () => {
     const [inGroup, setInGroup] = useState('')
 
     useEffect( () => {
-        dispatch(fetchGroups())
-        if (sessionUser){
-            dispatch(getUserGroups(sessionUser))
-            if (sessionGroups[groupId]) {
-                setInGroup(true)
-            } else {
-                setInGroup(false)
+        dispatch(fetchGroups()).then( () =>{
+            if (sessionUser){
+                dispatch(getUserGroups(sessionUser)).then( () => {
+                    if (sessionGroups[groupId]) {
+                        setInGroup(true)
+                    } else {
+                        setInGroup(false)
+                    }
+                })
+                
             }
-        }
-    }, [dispatch, sessionUser, groupId, sessionGroups])
+        })
+    }, [dispatch, sessionUser, groupId, sessionGroups. userGroups, sessionGroups])
 
     let content = null
 
@@ -40,12 +43,12 @@ const IndividualGroup = () => {
     const confirmDelete = <button onClick={handleDelete}>Yes</button>
     const cancelDelete = <button onClick={() => setShowDelete(false)}>Cancel</button>
 
-    const joinGroup = async() => {
-        // await dispatch(joinGroup(sessionUser.id, groupId))
+    const joinGroupButton = async() => {
+        await dispatch(joinGroup(sessionUser.id, groupId))
         setInGroup(true)
     }
 
-    const leaveGroup = async() => {
+    const leaveGroupButton = async() => {
         // dispatch leave group
         setInGroup(false)
     }
@@ -70,8 +73,8 @@ const IndividualGroup = () => {
                 <button onClick={() => setShowDelete(true) }>Delete Group</button>
                 {showDelete && <div><div>Are you sure you want to delete this group?</div>{confirmDelete}{cancelDelete}</div>}
                 <div className="user-join-leave-btn-container">
-                    {!inGroup && <button className="join-leave-group" onClick={joinGroup}>Join Group</button>}
-                    {inGroup && <button className="join-leave-group" onClick={leaveGroup}>Leave Group</button>}
+                    {!inGroup && <button className="join-leave-group" onClick={() => joinGroupButton()}>Join Group</button>}
+                    {inGroup && <button className="join-leave-group" onClick={() => leaveGroupButton()}>Leave Group</button>}
                 </div>
             </>
         )
