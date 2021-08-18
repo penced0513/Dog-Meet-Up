@@ -77,8 +77,8 @@ const IndividualGroup = () => {
                             <h3>{group?.location}</h3>
                         </div>
                         <div className="user-join-leave-btn-container">
-                            {!inGroup && <button className="join-leave-group" onClick={() => joinGroupButton()}>Join Group</button>}
-                            {inGroup && <button className="join-leave-group" onClick={() => leaveGroupButton()}>Leave Group</button>}
+                            {(!inGroup || !sessionUser) && <button className="join-leave-group" onClick={() => joinGroupButton()}>Join Group</button>}
+                            {inGroup && sessionUser && <button className="join-leave-group" onClick={() => leaveGroupButton()}>Leave Group</button>}
                             {sessionUser?.id === group?.organizer &&
                             <div>
                             <button onClick={() => setShowEditGroupForm(true)}>Edit Group</button>
