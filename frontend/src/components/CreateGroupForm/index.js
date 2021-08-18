@@ -52,8 +52,10 @@ const CreateGroup = () => {
               required
             />
           </label>
-          {imgURL && <div><div>Image Preview on Groups Page</div><img className="form-img-preview" src={imgURL} alt=""></img></div>}
-          {imgURL && <div><div>Image Preview for your Group</div><img className="form-img-preview-large" src={imgURL} alt=""></img></div>}
+          <div className="form-preview-container">
+            {imgURL && <div><div>Image Preview on Groups Page</div><img className="form-img-preview" src={imgURL} alt=""></img></div>}
+            {imgURL && <div><div>Image Preview for your Group</div><img className="form-img-preview-large" src={imgURL} alt=""></img></div>}
+          </div>
           <label>
             Image
             <input
