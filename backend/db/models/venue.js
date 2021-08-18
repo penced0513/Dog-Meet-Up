@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     lng: DataTypes.DECIMAL
   }, {});
   Venue.associate = function(models) {
-    // associations can be defined here
+    Venue.hasMany(models.Event, {foreignKey: "venueId"})
   };
   return Venue;
 };

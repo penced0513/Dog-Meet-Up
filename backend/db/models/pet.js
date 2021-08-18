@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
   }, {});
   Pet.associate = function(models) {
-    // associations can be defined here
+    Pet.hasMany(models.Rsvp, {foreignKey: "petId"})
+    Pet.belongsTo(models.User, {foreignKey: "owner"})
   };
   return Pet;
 };
