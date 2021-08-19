@@ -15,7 +15,6 @@ router.get('/', restoreUser, asyncHandler( async(req,res) => {
                 [Op.gt]: Date.now()
             }
         },
-        order: [['date', 'DESC']]
     })
     return res.json(events)
 }));
