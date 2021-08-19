@@ -35,5 +35,13 @@ router.put('/:id', restoreUser, asyncHandler(async(req,res) => {
     return res.json(event)
 }))
 
+router.delete('/:id', restoreUser, asyncHandler(async(req,res) => {
+    const {id} = req.params
+
+    const event = await Event.findByPk(id)
+    await event.destroy()
+    res.json("Deleted")
+}))
+
 
 module.exports = router;

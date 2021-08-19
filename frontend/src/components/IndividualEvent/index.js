@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams} from "react-router-dom"
+import { useParams, useHistory} from "react-router-dom"
 
-import { fetchEvents } from "../../store/eventReducer";
+import { fetchEvents, deleteEvent } from "../../store/eventReducer";
 import { fetchVenues } from '../../store/venueRedurcer';
 import  EditEventForm  from "../../components/EditEventForm"
 import { getUserGroups } from '../../store/groupReducer'; 
@@ -10,10 +10,12 @@ import './IndividualEvent.css'
 
 const IndividualEvent = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
     const sessionUser = useSelector(state => state.session.user);
     const {eventId} = useParams()
     const event = useSelector(state => state.event.allEvents[eventId])
     const [showEditEventForm, setShowEditEventForm] = useState(false)
+    const [showDelete, setShowDelete] = useState(false)
 
     useEffect( () => {
         dispatch(fetchEvents())
@@ -22,6 +24,13 @@ const IndividualEvent = () => {
     },[dispatch, sessionUser])
 
     let content = null
+
+    const handleDelete = async() => {
+        await dispatch(deleteEvent(eventId))
+        history.push('/events')
+    }
+    const confirmDelete = <button onClick={handleDelete}>Yes</button>
+    const cancelDelete = <button onClick={() => setShowDelete(false)}>Cancel</button>
 
     if (showEditEventForm){
         content = (
@@ -43,8 +52,11 @@ const IndividualEvent = () => {
                     {sessionUser?.id === event?.hostId &&
                             <div>
                             <button onClick={() => setShowEditEventForm(true)}>Edit Event</button>
+                            <button onClick={() => setShowDelete(true) }>Delete Group</button>
+                        {showDelete && <div><div>Are you sure you want to delete this group?</div>{confirmDelete}{cancelDelete}</div>}
                             </div>
                     }
+
                 </div>
                 <div className="group-page-description">
                     <h2>What we're about</h2>
