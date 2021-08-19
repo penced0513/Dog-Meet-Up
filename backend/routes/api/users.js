@@ -46,13 +46,13 @@ router.post(
 router.get('/:userId/groups', restoreUser, asyncHandler(async(req,res) => {
   const {userId} = req.params
   
-  const userGroups = await UserGroup.findAll({
-    include: {
+  const userGroups = await User.findAll({
+    include: { 
       model: Group,
     },
     where: {
-      userId
-    }
+      id: userId
+    },
 })
   
   return res.json(userGroups)

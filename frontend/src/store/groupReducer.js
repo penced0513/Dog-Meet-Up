@@ -81,6 +81,7 @@ export const getUserGroups = (user) => async dispatch => {
     const res = await csrfFetch(`/api/users/${user.id}/groups`)
     if (res.ok) {
       const groups = await res.json()
+      console.log(groups)
       await dispatch(setUserGroups(groups))
       return groups;
     }
