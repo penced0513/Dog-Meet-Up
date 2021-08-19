@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const GET_EVENTS = 'event/getEvents'
 const POST_EVENT = 'event/postEvent'
+const PUT_EVENT = 'event/putEvent'
 
 export const getEvents = (events) => {
     return { type: GET_EVENTS, events };
@@ -10,6 +11,11 @@ export const getEvents = (events) => {
 const postEvent = event => {
     return { type: POST_EVENT, event}
 }
+
+const putEvent = event => {
+    return { type: PUT_EVENT, event}
+}
+
 
 export const fetchEvents = () => async (dispatch) => {
     const res = await csrfFetch('/api/events')
@@ -32,6 +38,21 @@ export const createEvent = ( name, imgURL, venueId, groupId, description, date, 
     }
 }
 
+export const editEvent = (name, eventId, imgURL, venueId, groupId, description, date, capacity, userId) => async dispatch => {
+    const payload = {name, eventId, imgURL, venueId, groupId, description, date, capacity, userId}
+    const res = await csrfFetch(`/api/events/${eventId}`, {
+        method: 'put',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(payload) 
+    });
+
+    if (res.ok) {
+        const event = await res.json();
+        await dispatch(putEvent(event))
+        return event;
+    }
+}
+
 const eventReducer = ( state= { allEvents: {}, joined: {}}, action) => {
     let newState = { ...state }
     switch (action.type) {
@@ -41,6 +62,9 @@ const eventReducer = ( state= { allEvents: {}, joined: {}}, action) => {
             });
             return newState
         case POST_EVENT: 
+            newState.allEvents[action.event.id] = action.event
+            return newState;
+        case PUT_EVENT: 
             newState.allEvents[action.event.id] = action.event
             return newState;
         default: 

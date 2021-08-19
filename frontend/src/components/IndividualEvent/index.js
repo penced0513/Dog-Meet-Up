@@ -1,22 +1,33 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom"
+import { useParams} from "react-router-dom"
 
 import { fetchEvents } from "../../store/eventReducer";
+import { fetchVenues } from '../../store/venueRedurcer';
+import  EditEventForm  from "../../components/EditEventForm"
+import { getUserGroups } from '../../store/groupReducer'; 
 import './IndividualEvent.css'
 
 const IndividualEvent = () => {
-    const history = useHistory()
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user);
     const {eventId} = useParams()
     const event = useSelector(state => state.event.allEvents[eventId])
+    const [showEditEventForm, setShowEditEventForm] = useState(false)
+
     useEffect( () => {
         dispatch(fetchEvents())
-    },[dispatch,])
+        dispatch(fetchVenues())
+        dispatch(getUserGroups(sessionUser))
+    },[dispatch, sessionUser])
 
     let content = null
 
+    if (showEditEventForm){
+        content = (
+            <EditEventForm event={event} hideForm={() => setShowEditEventForm(false)}/>
+        )
+    } else {
         content = (
             <div className="group-page-container">
                 <div className="group-info-container">
@@ -29,6 +40,11 @@ const IndividualEvent = () => {
                             <h3>{event?.location}</h3>
                         </div>
                     </div>
+                    {sessionUser?.id === event?.hostId &&
+                            <div>
+                            <button onClick={() => setShowEditEventForm(true)}>Edit Event</button>
+                            </div>
+                    }
                 </div>
                 <div className="group-page-description">
                     <h2>What we're about</h2>
@@ -36,6 +52,7 @@ const IndividualEvent = () => {
                 </div>
             </div>
         )
+    }
     return (
         <div>
             {content}
