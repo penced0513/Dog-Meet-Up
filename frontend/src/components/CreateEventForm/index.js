@@ -3,16 +3,20 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
 
-import { createGroup } from '../../store/groupReducer'; 
+import { fetchGroups, getUserGroups } from '../../store/groupReducer'; 
 import { fetchVenues } from '../../store/venueRedurcer';
 
 const CreateEvent = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
+    const venues = useSelector(state => Object.values(state.venue))
+    const sessionGroups = useSelector(state => Object.values(state.group.joined))
+    console.log(sessionGroups)
     const [name, setName] = useState('');
     const [imgURL, setImgURL] = useState('');
-    const [location, setLocation] = useState('')
+    const [venueId, setVenueId] = useState('')
+    const [groupId, setGroupId] = useState('')
     const [description, setDescription] = useState('')
     const [errors, setErrors] = useState([]);
   
@@ -23,6 +27,7 @@ const CreateEvent = () => {
     useEffect(() => {
         
         dispatch(fetchVenues())
+        dispatch(getUserGroups(sessionUser))
 
     }, [dispatch])
 
@@ -30,15 +35,14 @@ const CreateEvent = () => {
       e.preventDefault();
         const validationErrors = []
         if (name.length < 2) validationErrors.push("Name must be longer than 2 characters")
-        if (location.length < 2) validationErrors.push("location must be longer than 2 characters")
         if (description.length < 10) validationErrors.push("Please provide a more detailed description")
         if (errors.length) {
             setErrors(validationErrors)
         } else {
-            const createdGroup = await dispatch(createGroup(name, imgURL, location, description, sessionUser.id))
-            if (createdGroup) {
-              history.push(`/groups/${createdGroup.id}`)
-            }
+            // const createdGroup = await dispatch(createGroup(name, imgURL, venueId, description, sessionUser.id))
+            // if (createdGroup) {
+            //   history.push(`/groups/${createdGroup.id}`)
+            // }
         }
     }
   
@@ -72,12 +76,23 @@ const CreateEvent = () => {
           </label>
           <label>
             Location
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+            <select               
+                value={venueId}
+              onChange={(e) => setVenueId(e.target.value)}
               required
-            />
+            >
+                {venues?.map(venue => <option key={venue.id} value={venue.id}>{venue.name}</option>)}
+            </select>
+          </label>
+          <label>
+            Group
+            <select               
+                value={groupId}
+              onChange={(e) => setGroupId(e.target.value)}
+              required
+            >
+                {sessionGroups?.map(group => <option key={group.id} value={group.id}>{group.name}</option>)}
+            </select>
           </label>
           <label>
             Description
@@ -88,7 +103,7 @@ const CreateEvent = () => {
               required
             />
           </label>
-          <button className="signup-submit" type="submit">Create Group</button>
+          <button className="signup-submit" type="submit">Create Event</button>
         </form>
       </div>
     );
