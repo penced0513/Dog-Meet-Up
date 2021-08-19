@@ -12,6 +12,8 @@ import GroupsPage from "./components/GroupsPage";
 import IndividualGroup from './components/IndividualGroup'
 import CreateGroup from "./components/CreateGroupForm";
 import EventsPage from "./components/EventsPage";
+import IndividualEvent from "./components/IndividualEvent"
+import CreateEvent from './components/CreateEventForm'
 
 function App() {
   const dispatch = useDispatch();
@@ -51,8 +53,17 @@ function App() {
             <Navigation isLoaded={isLoaded} />
             <IndividualGroup />
           </Route>
-          <Route path="/events">
+          <Route exact path="/events">
+            <Navigation isLoaded={isLoaded} />
             <EventsPage />
+          </Route>
+          <Route exact path="/events/new">
+            <Navigation isLoaded={isLoaded} />
+            <CreateEvent />
+          </Route>
+          <Route exact path="/events/:eventId">
+            <Navigation isLoaded={isLoaded} />
+            <IndividualEvent />
           </Route>
         </Switch>
       )}

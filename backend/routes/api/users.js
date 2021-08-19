@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const { check } = require('express-validator');
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { User, UserGroup } = require('../../db/models');
+const { User, UserGroup, Group } = require('../../db/models');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
@@ -46,9 +46,15 @@ router.post(
 router.get('/:userId/groups', restoreUser, asyncHandler(async(req,res) => {
   const {userId} = req.params
   
-  const userGroups = await UserGroup.findAll({where: {
-      userId
-  }})
+  const userGroups = await User.findAll({
+    include: { 
+      model: Group,
+      as: "joinedGroups"
+    },
+    where: {
+      id: userId
+    },
+})
   
   return res.json(userGroups)
 }))

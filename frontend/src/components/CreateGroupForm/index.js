@@ -26,7 +26,7 @@ const CreateGroup = () => {
         if (name.length < 2) validationErrors.push("Name must be longer than 2 characters")
         if (location.length < 2) validationErrors.push("location must be longer than 2 characters")
         if (description.length < 10) validationErrors.push("Please provide a more detailed description")
-        if (errors.length) {
+        if (validationErrors.length) {
             setErrors(validationErrors)
         } else {
             const createdGroup = await dispatch(createGroup(name, imgURL, location, description, sessionUser.id))

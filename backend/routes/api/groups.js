@@ -17,6 +17,8 @@ router.post('/new', restoreUser, asyncHandler(async(req,res) => {
         imgURL = "https://www.vhv.rs/dpng/d/487-4871907_grey-x-icon-png-transparent-png.png"
     }
     const group = await Group.create({ name, img:imgURL, location, description, organizer: userId})
+
+    await UserGroup.create({ userId, groupId: group.id})
     return res.json(group)
 }))
 

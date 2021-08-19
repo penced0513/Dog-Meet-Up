@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import './Card.css';
+import './GroupsCard.css';
 
 const Card = ({group}) => {
     return (
@@ -16,7 +16,6 @@ const Card = ({group}) => {
             </div>
         </div>
     )
-
 }
 
 export default Card
