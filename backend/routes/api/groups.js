@@ -19,7 +19,6 @@ router.post('/new', restoreUser, asyncHandler(async(req,res) => {
     const group = await Group.create({ name, img:imgURL, location, description, organizer: userId})
 
     await UserGroup.create({ userId, groupId: group.id})
-    
     return res.json(group)
 }))
 
