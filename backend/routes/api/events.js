@@ -1,5 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 const { restoreUser } = require('../../utils/auth');
 const { Event, Venue } = require('../../db/models');
@@ -7,7 +9,14 @@ const { Event, Venue } = require('../../db/models');
 const router = express.Router();
 
 router.get('/', restoreUser, asyncHandler( async(req,res) => {
-    const events = await Event.findAll()
+    const events = await Event.findAll({
+        where: {
+            date: {
+                [Op.gt]: Date.now()
+            }
+        },
+        order: [['date', 'DESC']]
+    })
     return res.json(events)
 }));
 

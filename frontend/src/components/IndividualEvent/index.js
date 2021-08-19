@@ -46,7 +46,7 @@ const IndividualEvent = () => {
                     <div className="group-info-right-side">
                         <div className="group-name-location">
                             <h1>{event?.name}</h1>
-                            <h3>{event?.location}</h3>
+                            <h3>{(event && (new Date(event.date)).toString())}</h3>
                         </div>
                     </div>
                     {sessionUser?.id === event?.hostId &&
@@ -56,7 +56,6 @@ const IndividualEvent = () => {
                         {showDelete && <div><div>Are you sure you want to delete this group?</div>{confirmDelete}{cancelDelete}</div>}
                             </div>
                     }
-
                 </div>
                 <div className="group-page-description">
                     <h2>What we're about</h2>
