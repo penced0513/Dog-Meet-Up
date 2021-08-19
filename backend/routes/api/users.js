@@ -49,6 +49,7 @@ router.get('/:userId/groups', restoreUser, asyncHandler(async(req,res) => {
   const userGroups = await User.findAll({
     include: { 
       model: Group,
+      as: "joinedGroups"
     },
     where: {
       id: userId

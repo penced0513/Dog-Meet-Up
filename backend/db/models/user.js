@@ -89,6 +89,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   User.associate = function(models) {
     const columnMapping = {
+      as: 'joinedGroups',
       through: "UserGroups",
       otherKey: "groupId",
       foreignKey: "userId",

@@ -12,7 +12,6 @@ const CreateEvent = () => {
     const sessionUser = useSelector(state => state.session.user);
     const venues = useSelector(state => Object.values(state.venue))
     const sessionGroups = useSelector(state => Object.values(state.group.joined))
-    console.log(sessionGroups)
     const [name, setName] = useState('');
     const [imgURL, setImgURL] = useState('');
     const [venueId, setVenueId] = useState('')
