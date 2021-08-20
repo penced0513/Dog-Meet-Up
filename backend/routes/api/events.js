@@ -4,7 +4,7 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
 const { restoreUser } = require('../../utils/auth');
-const { Event, Venue } = require('../../db/models');
+const { Event, Rsvp } = require('../../db/models');
 
 const router = express.Router();
 
@@ -45,6 +45,11 @@ router.put('/:id', restoreUser, asyncHandler(async(req,res) => {
 
 router.delete('/:id', restoreUser, asyncHandler(async(req,res) => {
     const {id} = req.params
+
+    const rsvps = await Rsvp.findAll({where:{eventId: id}})
+    rsvps.forEach(async(rsvp)=> {
+        await rsvp.destroy()
+    })
 
     const event = await Event.findByPk(id)
     await event.destroy()

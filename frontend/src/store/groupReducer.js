@@ -5,6 +5,7 @@ const POST_GROUP = 'group/postGroup'
 const PUT_GROUP = 'group/putGroup'
 const DELETE_GROUP = 'group/deleteGroup'
 const SET_USER_GROUPS = 'group/setUserGroups'
+const ADD_USER_GROUP = 'group/addUserGroup'
 const DELETE_USER_GROUPS = 'group/deleteUserGroups'
 
 export const getGroups = (groups) => {
@@ -27,6 +28,13 @@ const setUserGroups = (groups) => {
     return {
       type: SET_USER_GROUPS,
       groups
+    }
+}
+
+const addUserGroup = group => {
+    return {
+        type: ADD_USER_GROUP,
+        group
     }
 }
 
@@ -94,9 +102,9 @@ export const joinGroup = (userId, groupId) => async dispatch => {
         body: JSON.stringify({userId, groupId}) 
     })
     if (res.ok) {
-      const groups = await res.json()
-      dispatch(setUserGroups(Object.values(groups)))
-      return groups;
+      const group = await res.json()
+      dispatch(addUserGroup(group))
+      return group;
     } 
 }
 
@@ -108,7 +116,7 @@ export const leaveGroup = (userId, groupId) => async dispatch => {
     })
     if (res.ok) {
       const groupId = await res.json()
-      dispatch(deleteUserGroups(Object.values(groupId)))
+      dispatch(deleteUserGroups(groupId))
       return groupId;
     } 
 }
@@ -141,6 +149,10 @@ const groupReducer = ( state= { allGroups: {}, joined: {}}, action) => {
                 newState.joined[group.id] = group
             })
             return newState;
+        case ADD_USER_GROUP:
+            newState = {...state}
+            newState.joined[action.group.id] = action.group
+            return newState
         case DELETE_USER_GROUPS: 
             newState = {...state}
             delete newState.joined[action.groupId]

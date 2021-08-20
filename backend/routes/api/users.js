@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const { check } = require('express-validator');
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { User, UserGroup, Group } = require('../../db/models');
+const { User, UserGroup, Group, Rsvp, Event } = require('../../db/models');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
@@ -61,7 +61,8 @@ router.get('/:userId/groups', restoreUser, asyncHandler(async(req,res) => {
 
 router.post('/:userId(\\d+)/groups/:groupId(\\d+)', restoreUser, asyncHandler(async(req,res) => {
   const {userId, groupId} = req.params
-  const group = await UserGroup.create({ userId, groupId})
+  await UserGroup.create({ userId, groupId})
+  const group = await Group.findByPk(groupId)
   return res.json(group)
 }))
 
@@ -74,6 +75,52 @@ router.delete('/:userId/groups/:groupId', restoreUser, asyncHandler(async(req,re
   }})
   await userGroup.destroy()
   return res.json(groupId)
+}))
+
+router.get('/:userId/events', restoreUser, asyncHandler(async(req,res) => {
+  const {userId} = req.params
+  
+  const userEvents = await Rsvp.findAll({
+    include: { 
+      model: Event,
+    },
+    where: {
+      userId
+    },
+})
+  
+  return res.json(userEvents)
+}))
+
+router.post('/:userId(\\d+)/events/:eventId(\\d+)', restoreUser, asyncHandler(async(req,res) => {
+  const {userId, eventId} = req.params
+  const rsvp = await Rsvp.create({ userId, eventId})
+  const event = await Event.findByPk(eventId)
+  return res.json(event)
+}))
+
+router.delete('/:userId/events/:eventId', restoreUser, asyncHandler(async(req,res) => {
+  const {userId, eventId} = req.params
+  const rsvp = await Rsvp.findOne({where: {
+      userId,
+      eventId
+  }})
+  await rsvp.destroy()
+  return res.json(eventId)
+}))
+
+
+
+router.get('/:userId/pets', restoreUser, asyncHandler(async(req, res) => {
+  const { userId } = req.params
+
+  const userPets = await Pet.findAll({
+    where: {
+      owner: userId
+    }
+  })
+
+  return res.json(userPets)
 }))
 
 module.exports = router;

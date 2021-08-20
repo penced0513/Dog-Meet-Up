@@ -4,6 +4,9 @@ const GET_EVENTS = 'event/getEvents'
 const POST_EVENT = 'event/postEvent'
 const PUT_EVENT = 'event/putEvent'
 const DELETE_EVENT = 'event/deleteEvent'
+const SET_USER_EVENTS = 'event/setUserEvents'
+const ADD_USER_EVENT = 'event/addUserEvent'
+const DELETE_USER_EVENT = 'group/deleteUserEvent'
 
 export const getEvents = (events) => {
     return { type: GET_EVENTS, events };
@@ -21,6 +24,26 @@ const destroyEvent= eventId => {
     return { type: DELETE_EVENT, eventId}
 }
 
+const setUserEvents = (events) => {
+    return {
+      type: SET_USER_EVENTS,
+      events
+    }
+}
+
+const addUserEvent = event => {
+    return {
+        type: ADD_USER_EVENT,
+        event
+    }
+}
+
+const deleteUserEvent = (eventId) => {
+    return {
+      type: DELETE_USER_EVENT,
+      eventId
+    }
+}
 
 export const fetchEvents = () => async (dispatch) => {
     const res = await csrfFetch('/api/events')
@@ -69,6 +92,42 @@ export const deleteEvent = (eventId) => async dispatch => {
     }
 }
 
+export const getUserEvents = (user) => async dispatch => {
+    const res = await csrfFetch(`/api/users/${user.id}/events`)
+    if (res.ok) {
+      const rsvps = await res.json()
+      await dispatch(setUserEvents(rsvps))
+      return rsvps;
+    }
+}
+
+export const joinEvent = (userId, eventId) => async dispatch => {
+    const res = await csrfFetch(`/api/users/${userId}/events/${eventId}`, {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({userId, eventId}) 
+    })
+    if (res.ok) {
+      const event = await res.json()
+      console.log('event',event)
+      dispatch(addUserEvent(event))
+      return event;
+    } 
+}
+
+export const leaveEvent = (userId, eventId) => async dispatch => {
+    const res = await csrfFetch(`/api/users/${userId}/events/${eventId}`, {
+        method: 'delete',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({userId, eventId}) 
+    })
+    if (res.ok) {
+      const eventId = await res.json()
+      dispatch(deleteUserEvent(eventId))
+      return eventId;
+    } 
+}
+
 const eventReducer = ( state= { allEvents: {}, joined: {}}, action) => {
     let newState = { ...state }
     switch (action.type) {
@@ -85,6 +144,20 @@ const eventReducer = ( state= { allEvents: {}, joined: {}}, action) => {
             return newState;
         case DELETE_EVENT:
             delete newState.allEvents[action.eventId]
+            return newState
+        case SET_USER_EVENTS:
+            newState = {...state}
+            action.events.forEach(rsvp => {
+                newState.joined[rsvp.eventId] = rsvp.Event
+            })
+            return newState;
+        case ADD_USER_EVENT:
+            newState = {...state}
+            newState.joined[action.event.id] = action.event
+            return newState
+        case DELETE_USER_EVENT: 
+            newState = {...state}
+            delete newState.joined[action.eventId]
             return newState
         default: 
             return state;

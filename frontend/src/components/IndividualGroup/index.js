@@ -7,6 +7,7 @@ import EditGroupForm from '../EditGroupForm'
 import { deleteGroup, getUserGroups, joinGroup, leaveGroup } from "../../store/groupReducer";
 import './individualGroup.css'
 
+
 const IndividualGroup = () => {
     const history = useHistory()
     const dispatch = useDispatch()
@@ -35,8 +36,10 @@ const IndividualGroup = () => {
     let content = null
 
     const handleDelete = async() => {
-        await dispatch(deleteGroup(groupId))
+        await dispatch(deleteGroup(groupId));
         history.push('/groups')
+        
+
     }
     const confirmDelete = <button onClick={handleDelete}>Yes</button>
     const cancelDelete = <button onClick={() => setShowDelete(false)}>Cancel</button>
