@@ -20,8 +20,9 @@ const putGroup = group => {
     return { type: PUT_GROUP, group}
 }
 
-const destroyGroup = groupId => {
-    return { type: DELETE_GROUP, groupId}
+const destroyGroup = (groupId, events) => {
+    const payload = { groupId, events}
+    return { type: DELETE_GROUP, payload}
 }
 
 const setUserGroups = (groups) => {
@@ -81,7 +82,8 @@ export const deleteGroup = (groupId) => async dispatch => {
     });
 
     if (res.ok) {
-        await dispatch(destroyGroup(groupId))
+        const events = await res.json()
+        await dispatch(destroyGroup(groupId, events))
     }
 }
 
@@ -141,7 +143,8 @@ const groupReducer = ( state= { allGroups: {}, joined: {}}, action) => {
             newState.allGroups[action.group.id] = action.group
             return newState;
         case DELETE_GROUP:
-            delete newState.allGroups[action.groupId]
+            delete newState.allGroups[action.payload.groupId]
+            if(newState.joined[action.payload.groupId]) delete newState.joined[action.payload.groupId]
             return newState
         case SET_USER_GROUPS:
             newState = {...state}

@@ -56,9 +56,10 @@ router.delete('/:id', restoreUser, asyncHandler(async(req,res) => {
     events.forEach(async(event) => {
         event.destroy()
     })
+    console.log('events', events)
     const group = await Group.findByPk(id)
     await group.destroy()
-    res.json("Deleted")
+    res.json(events)
 }))
 
 module.exports = router;

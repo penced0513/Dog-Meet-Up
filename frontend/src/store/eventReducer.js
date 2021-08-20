@@ -144,6 +144,7 @@ const eventReducer = ( state= { allEvents: {}, joined: {}}, action) => {
             return newState;
         case DELETE_EVENT:
             delete newState.allEvents[action.eventId]
+            if(newState.joined[action.eventId]) delete newState.joined[action.eventId]
             return newState
         case SET_USER_EVENTS:
             newState = {...state}

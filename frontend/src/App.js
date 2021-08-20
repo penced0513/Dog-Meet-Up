@@ -14,6 +14,7 @@ import CreateGroup from "./components/CreateGroupForm";
 import EventsPage from "./components/EventsPage";
 import IndividualEvent from "./components/IndividualEvent"
 import CreateEvent from './components/CreateEventForm'
+import SecondNavBar from "./components/SecondNavBar";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function App() {
           </Route>
           <Route path="/home">
             <Navigation isLoaded={isLoaded} />
+            <SecondNavBar></SecondNavBar>
             <HomePage />
           </Route>
           <Route path="/login">
@@ -43,6 +45,7 @@ function App() {
           </Route>
           <Route exact path="/groups">
             <Navigation isLoaded={isLoaded} />
+            <SecondNavBar></SecondNavBar>
             <GroupsPage />
           </Route>
           <Route exact path="/groups/new">
@@ -55,6 +58,7 @@ function App() {
           </Route>
           <Route exact path="/events">
             <Navigation isLoaded={isLoaded} />
+            <SecondNavBar></SecondNavBar>
             <EventsPage />
           </Route>
           <Route exact path="/events/new">
