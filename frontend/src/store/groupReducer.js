@@ -142,6 +142,7 @@ const groupReducer = ( state= { allGroups: {}, joined: {}}, action) => {
             return newState;
         case DELETE_GROUP:
             delete newState.allGroups[action.groupId]
+            if(newState.joined[action.groupId]) delete newState.joined[action.groupId]
             return newState
         case SET_USER_GROUPS:
             newState = {...state}
