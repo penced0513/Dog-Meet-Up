@@ -12,7 +12,6 @@ export default function EventsPage () {
         if (a.date < b.date) return -1
         return 1
     }))
-    console.log(events)
 
     useEffect( () => {
         dispatch(fetchEvents())

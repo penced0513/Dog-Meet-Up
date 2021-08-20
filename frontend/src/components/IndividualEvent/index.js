@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory} from "react-router-dom"
 
-import { fetchEvents, deleteEvent } from "../../store/eventReducer";
+import { fetchEvents, deleteEvent, getUserEvents, joinEvent } from "../../store/eventReducer";
 import { fetchVenues } from '../../store/venueRedurcer';
 import  EditEventForm  from "../../components/EditEventForm"
 import { getUserGroups } from '../../store/groupReducer'; 
@@ -12,15 +12,27 @@ const IndividualEvent = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const sessionUser = useSelector(state => state.session.user);
+    const sessionEvents = useSelector(state => state.event.joined)
     const {eventId} = useParams()
     const event = useSelector(state => state.event.allEvents[eventId])
     const [showEditEventForm, setShowEditEventForm] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
+    const [inEvent, setInEvent] = useState('')
 
     useEffect( () => {
         dispatch(fetchEvents())
         dispatch(fetchVenues())
-        dispatch(getUserGroups(sessionUser))
+        dispatch(getUserGroups(sessionUser)).then( () => {
+            if (sessionUser){
+                dispatch(getUserEvents(sessionUser)).then( () => {
+                    if (sessionEvents[eventId]) {
+                        setInEvent(true)
+                    } else {
+                        setInEvent(false)
+                    }
+                }) 
+            }
+        })
     },[dispatch, sessionUser])
 
     let content = null
@@ -31,6 +43,24 @@ const IndividualEvent = () => {
     }
     const confirmDelete = <button onClick={handleDelete}>Yes</button>
     const cancelDelete = <button onClick={() => setShowDelete(false)}>Cancel</button>
+
+    const joinEventButton = async() => {
+        if (sessionUser) {
+            await dispatch(joinEvent(sessionUser.id, eventId))
+            setInEvent(true)
+        } else {
+            history.push('/login')
+        }
+    }
+
+    const leaveEventButton = async() => {
+        if (sessionUser) {
+            // await dispatch(leaveEvent(sessionUser.id, eventId))
+            setInEvent(false)
+        } else {
+            history.push('/login')
+        }
+    }
 
     if (showEditEventForm){
         content = (
@@ -49,13 +79,17 @@ const IndividualEvent = () => {
                             <h3>{(event && (new Date(event.date)).toString())}</h3>
                         </div>
                     </div>
-                    {sessionUser?.id === event?.hostId &&
-                            <div>
-                            <button onClick={() => setShowEditEventForm(true)}>Edit Event</button>
-                            <button onClick={() => setShowDelete(true) }>Delete Event</button>
-                        {showDelete && <div><div>Are you sure you want to delete this event?</div>{confirmDelete}{cancelDelete}</div>}
-                            </div>
-                    }
+                    <div>
+                        {(!inEvent || !sessionUser) && <button className="join-leave-group" onClick={() => joinEventButton()}>Join Event</button>}
+                                {((sessionUser?.id !== event?.hostId) && (inEvent && sessionUser)) && <button className="join-leave-group" onClick={() => leaveEventButton()}>Leave Event</button>}
+                        {sessionUser?.id === event?.hostId &&
+                                <div>
+                                <button onClick={() => setShowEditEventForm(true)}>Edit Event</button>
+                                <button onClick={() => setShowDelete(true) }>Delete Event</button>
+                            {showDelete && <div><div>Are you sure you want to delete this event?</div>{confirmDelete}{cancelDelete}</div>}
+                                </div>
+                        }
+                    </div>
                 </div>
                 <div className="group-page-description">
                     <h2>What we're about</h2>
