@@ -116,7 +116,7 @@ export const leaveGroup = (userId, groupId) => async dispatch => {
     })
     if (res.ok) {
       const groupId = await res.json()
-      dispatch(deleteUserGroups(Object.values(groupId)))
+      dispatch(deleteUserGroups(groupId))
       return groupId;
     } 
 }

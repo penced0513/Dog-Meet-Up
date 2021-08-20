@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory} from "react-router-dom"
 
-import { fetchEvents, deleteEvent, getUserEvents, joinEvent } from "../../store/eventReducer";
+import { fetchEvents, deleteEvent, getUserEvents, joinEvent, leaveEvent } from "../../store/eventReducer";
 import { fetchVenues } from '../../store/venueRedurcer';
 import  EditEventForm  from "../../components/EditEventForm"
 import { getUserGroups } from '../../store/groupReducer'; 
@@ -33,7 +33,7 @@ const IndividualEvent = () => {
                 }) 
             }
         })
-    },[dispatch, sessionUser])
+    },[dispatch, sessionUser, eventId, sessionEvents])
 
     let content = null
 
@@ -55,7 +55,7 @@ const IndividualEvent = () => {
 
     const leaveEventButton = async() => {
         if (sessionUser) {
-            // await dispatch(leaveEvent(sessionUser.id, eventId))
+            await dispatch(leaveEvent(sessionUser.id, eventId))
             setInEvent(false)
         } else {
             history.push('/login')

@@ -99,6 +99,17 @@ router.post('/:userId(\\d+)/events/:eventId(\\d+)', restoreUser, asyncHandler(as
   return res.json(event)
 }))
 
+router.delete('/:userId/events/:eventId', restoreUser, asyncHandler(async(req,res) => {
+  const {userId, eventId} = req.params
+  const rsvp = await Rsvp.findOne({where: {
+      userId,
+      eventId
+  }})
+  await rsvp.destroy()
+  return res.json(eventId)
+}))
+
+
 
 router.get('/:userId/pets', restoreUser, asyncHandler(async(req, res) => {
   const { userId } = req.params
