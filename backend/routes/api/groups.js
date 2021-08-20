@@ -11,6 +11,12 @@ router.get('/', restoreUser, asyncHandler( async(req,res) => {
     return res.json(groups)
 }));
 
+router.get('/:id/events', restoreUser, asyncHandler( async(req,res) => {
+    const {id} = req.params
+    const events = await Event.findAll({where:{categoryId: id}})
+    return res.json(events)
+}));
+
 router.post('/new', restoreUser, asyncHandler(async(req,res) => {
     let { name, imgURL, location, description, userId} = req.body
     if (!imgURL) {

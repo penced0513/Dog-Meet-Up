@@ -128,6 +128,12 @@ export const fetchGroups = () => async (dispatch) => {
     dispatch(getGroups(groups))
 }
 
+export const getGroupEvents = async(groupId) => {
+    const res = await csrfFetch(`/api/groups/${groupId}/events`)
+    const groups = await res.json()
+    return groups
+}
+
 const groupReducer = ( state= { allGroups: {}, joined: {}}, action) => {
     let newState = { ...state }
     switch (action.type) {
