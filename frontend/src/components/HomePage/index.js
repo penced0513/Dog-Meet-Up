@@ -10,12 +10,9 @@ import GroupCard from '../GroupsCard'
 export default function HomePage () {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user);
-    const events = useSelector(state => state.event.allEvents)
-    const groups = useSelector(state => state.group.allGroups)
-    console.log('groups', groups)
     const sessionEvents = useSelector(state => Object.values(state.event.joined))
     const sessionGroups = useSelector(state => Object.values(state.group.joined))
-    console.log(sessionGroups)
+
     
     useEffect( () => {
         dispatch(getUserGroups(sessionUser))

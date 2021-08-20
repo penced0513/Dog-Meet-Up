@@ -90,11 +90,15 @@ const IndividualGroup = () => {
                         </div>
                     </div>
                 </div>
-                <div className="group-page-description">
-                    <h2>What we're about</h2>
-                    <p>{group?.description}</p>
+                <div>
+                    <div className="group-page-description">
+                        <h2>What we're about</h2>
+                        <p>{group?.description}</p>
+                    </div>
+                    <div>
+                                
+                    </div>
                 </div>
-                <div>Todo... add events on this page</div>
 
 
             </div>
