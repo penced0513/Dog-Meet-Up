@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchGroups } from "../../store/groupReducer";
-import { fetchEvents } from "../../store/eventReducer";
 import GroupCard from '../GroupsCard'
 import './groupsPage.css';
 

@@ -1,7 +1,7 @@
 import { useSelector,useDispatch } from 'react-redux';
 import { useEffect } from "react";
 import { Redirect } from 'react-router-dom';
-import { getUserGroups, fetchGroups } from '../../store/groupReducer'; 
+import { getUserGroups } from '../../store/groupReducer'; 
 import { getUserEvents } from "../../store/eventReducer";
 import Card from '../EventsCard'
 import GroupCard from '../GroupsCard'
@@ -17,7 +17,7 @@ export default function HomePage () {
     useEffect( () => {
         dispatch(getUserGroups(sessionUser))
         dispatch(getUserEvents(sessionUser))
-    },[dispatch])
+    },[dispatch, sessionUser])
     if (!sessionUser) {
         return <Redirect to="/" />
     }

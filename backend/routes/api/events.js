@@ -4,7 +4,7 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
 const { restoreUser } = require('../../utils/auth');
-const { Event, Rsvp } = require('../../db/models');
+const { Event, Rsvp, User } = require('../../db/models');
 
 const router = express.Router();
 
@@ -15,6 +15,12 @@ router.get('/', restoreUser, asyncHandler( async(req,res) => {
                 [Op.gt]: Date.now()
             }
         },
+        include: {
+            model: Rsvp,
+            include: {
+                model: User
+            }
+        }
     })
     return res.json(events)
 }));

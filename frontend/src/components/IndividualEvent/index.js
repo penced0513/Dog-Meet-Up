@@ -15,6 +15,7 @@ const IndividualEvent = () => {
     const sessionEvents = useSelector(state => state.event.joined)
     const {eventId} = useParams()
     const event = useSelector(state => state.event.allEvents[eventId])
+    console.log('event', event)
     const [showEditEventForm, setShowEditEventForm] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
     const [inEvent, setInEvent] = useState('')
@@ -48,6 +49,7 @@ const IndividualEvent = () => {
         if (sessionUser) {
             await dispatch(joinEvent(sessionUser.id, eventId))
             setInEvent(true)
+            dispatch(fetchEvents())
         } else {
             history.push('/login')
         }
@@ -57,6 +59,7 @@ const IndividualEvent = () => {
         if (sessionUser) {
             await dispatch(leaveEvent(sessionUser.id, eventId))
             setInEvent(false)
+            dispatch(fetchEvents())
         } else {
             history.push('/login')
         }
@@ -91,9 +94,17 @@ const IndividualEvent = () => {
                         }
                     </div>
                 </div>
-                <div className="group-page-description">
-                    <h2>What we're about</h2>
-                    <p>{event?.description}</p>
+                <div>
+                    <div className="group-page-description">
+                        <h2>What we're about</h2>
+                        <p>{event?.description}</p>
+                    </div>
+                    <div>
+                        <h2>Attendees ({event?.Rsvps.length})</h2>
+                        {event?.Rsvps.map(rsvp => (
+                            <div key={rsvp.id}>{rsvp.User.username}</div>
+                        ))}
+                    </div>
                 </div>
             </div>
         )

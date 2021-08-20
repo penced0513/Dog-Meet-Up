@@ -15,7 +15,7 @@ const IndividualGroup = () => {
     const sessionUser = useSelector(state => state.session.user);
     const sessionGroups = useSelector(state => state.group.joined)
     const {groupId} = useParams()
-    const groupEvents = useSelector(state => Object.values(state.event.allEvents).filter(event => event.categoryId == groupId).sort((a,b) => {
+    const groupEvents = useSelector(state => Object.values(state.event.allEvents).filter(event => event.categoryId === Number(groupId)).sort((a,b) => {
         if (a.date < b.date) return -1
         return 1
     }))
@@ -23,9 +23,6 @@ const IndividualGroup = () => {
     const [showEditGroupForm, setShowEditGroupForm] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
     const [inGroup, setInGroup] = useState('')
-
-    // const groupEvents = Object.values(getGroupEvents(groupId))
-
 
     useEffect( () => {
         dispatch(fetchEvents())
