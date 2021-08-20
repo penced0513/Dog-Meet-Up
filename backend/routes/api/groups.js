@@ -48,13 +48,13 @@ router.delete('/:id', restoreUser, asyncHandler(async(req,res) => {
             }
         }
     })
-    rsvps.forEach(async(rsvp) => {
+    await rsvps.forEach(async(rsvp) => {
         await rsvp.destroy()
     })
 
     const events = await Event.findAll({where:{categoryId: id}})
     events.forEach(async(event) => {
-        await event.destroy()
+        event.destroy()
     })
     const group = await Group.findByPk(id)
     await group.destroy()
