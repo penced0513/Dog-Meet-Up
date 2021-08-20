@@ -52,8 +52,8 @@ const IndividualEvent = () => {
                     {sessionUser?.id === event?.hostId &&
                             <div>
                             <button onClick={() => setShowEditEventForm(true)}>Edit Event</button>
-                            <button onClick={() => setShowDelete(true) }>Delete Group</button>
-                        {showDelete && <div><div>Are you sure you want to delete this group?</div>{confirmDelete}{cancelDelete}</div>}
+                            <button onClick={() => setShowDelete(true) }>Delete Event</button>
+                        {showDelete && <div><div>Are you sure you want to delete this event?</div>{confirmDelete}{cancelDelete}</div>}
                             </div>
                     }
                 </div>

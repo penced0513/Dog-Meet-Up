@@ -8,7 +8,11 @@ import Card from '../EventsCard'
 export default function EventsPage () {
     const dispatch = useDispatch()
     
-    const events = useSelector((state) => Object.values(state.event.allEvents))
+    const events = useSelector((state) => Object.values(state.event.allEvents).sort((a,b) => {
+        if (a.date < b.date) return -1
+        return 1
+    }))
+    console.log(events)
 
     useEffect( () => {
         dispatch(fetchEvents())
