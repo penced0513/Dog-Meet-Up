@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom"
 
-import { fetchGroups } from "../../store/groupReducer";
+import Card from '../EventsCard'
 import EditGroupForm from '../EditGroupForm'
-import { deleteGroup, getUserGroups, joinGroup, leaveGroup } from "../../store/groupReducer";
+import { fetchGroups, deleteGroup, getUserGroups, joinGroup, leaveGroup } from "../../store/groupReducer";
+import { fetchEvents } from "../../store/eventReducer";
 import './individualGroup.css'
 
 
@@ -14,12 +15,20 @@ const IndividualGroup = () => {
     const sessionUser = useSelector(state => state.session.user);
     const sessionGroups = useSelector(state => state.group.joined)
     const {groupId} = useParams()
+    const groupEvents = useSelector(state => Object.values(state.event.allEvents).filter(event => event.categoryId == groupId).sort((a,b) => {
+        if (a.date < b.date) return -1
+        return 1
+    }))
     const group = useSelector(state => state.group.allGroups[groupId])
     const [showEditGroupForm, setShowEditGroupForm] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
     const [inGroup, setInGroup] = useState('')
 
+    // const groupEvents = Object.values(getGroupEvents(groupId))
+
+
     useEffect( () => {
+        dispatch(fetchEvents())
         dispatch(fetchGroups()).then( () =>{
             if (sessionUser){
                 dispatch(getUserGroups(sessionUser)).then( () => {
@@ -96,7 +105,12 @@ const IndividualGroup = () => {
                         <p>{group?.description}</p>
                     </div>
                     <div>
-                                
+                        <h2>Upcoming Events</h2>
+                        <div>
+                        {groupEvents?.map(event => (
+                            <Card event={event} key={event.id}></Card>
+                        ))}     
+                        </div>
                     </div>
                 </div>
 
