@@ -1,0 +1,9 @@
+.active {
+    color: rgba(0,130,148);
+    text-decoration: underline;
+}
+
+.passive {
+    color: rgba(117,117,117);
+    text-decoration: none;
+}

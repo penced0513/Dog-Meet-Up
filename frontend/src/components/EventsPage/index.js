@@ -15,6 +15,8 @@ export default function EventsPage () {
 
     useEffect( () => {
         dispatch(fetchEvents())
+        document.getElementById("secondNavBarGroups").setAttribute("class", "passive")
+        document.getElementById("secondNavBarEvents").setAttribute("class", "active")
     }, [dispatch])
     
     return (

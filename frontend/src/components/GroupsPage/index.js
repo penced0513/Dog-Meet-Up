@@ -12,6 +12,8 @@ export default function GroupsPage () {
 
     useEffect( () => {
         dispatch(fetchGroups())
+        document.getElementById("secondNavBarGroups").setAttribute("class", "active")
+        document.getElementById("secondNavBarEvents").setAttribute("class", "passive")
     }, [dispatch])
 
     useEffect(() => {
