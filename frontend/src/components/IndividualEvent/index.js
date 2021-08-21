@@ -5,17 +5,17 @@ import { useParams, useHistory} from "react-router-dom"
 import { fetchEvents, deleteEvent, getUserEvents, joinEvent, leaveEvent } from "../../store/eventReducer";
 import { fetchVenues } from '../../store/venueRedurcer';
 import  EditEventForm  from "../../components/EditEventForm"
-import { getUserGroups } from '../../store/groupReducer'; 
+import { getUserGroups, joinGroup } from '../../store/groupReducer'; 
 import './IndividualEvent.css'
 
 const IndividualEvent = () => {
     const dispatch = useDispatch()
     const history = useHistory()
+    const sessionGroups = useSelector(state => state.group.joined)
     const sessionUser = useSelector(state => state.session.user);
     const sessionEvents = useSelector(state => state.event.joined)
     const {eventId} = useParams()
     const event = useSelector(state => state.event.allEvents[eventId])
-    console.log('event', event)
     const [showEditEventForm, setShowEditEventForm] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
     const [inEvent, setInEvent] = useState('')
@@ -23,17 +23,17 @@ const IndividualEvent = () => {
     useEffect( () => {
         dispatch(fetchEvents())
         dispatch(fetchVenues())
-        dispatch(getUserGroups(sessionUser)).then( () => {
-            if (sessionUser){
-                dispatch(getUserEvents(sessionUser)).then( () => {
-                    if (sessionEvents[eventId]) {
-                        setInEvent(true)
-                    } else {
-                        setInEvent(false)
-                    }
-                }) 
-            }
-        })
+        if (sessionUser){
+            dispatch(getUserGroups(sessionUser))
+            dispatch(getUserEvents(sessionUser)).then( () => {
+                if (sessionEvents[eventId]) {
+                    setInEvent(true)
+                } else {
+                    setInEvent(false)
+                }
+            }) 
+
+        }
     },[dispatch, sessionUser, eventId, sessionEvents])
 
     let content = null
@@ -48,6 +48,7 @@ const IndividualEvent = () => {
     const joinEventButton = async() => {
         if (sessionUser) {
             await dispatch(joinEvent(sessionUser.id, eventId))
+            if (!sessionGroups[event.categoryId])  dispatch(joinGroup(sessionUser.id, event.categoryId))
             setInEvent(true)
             dispatch(fetchEvents())
         } else {

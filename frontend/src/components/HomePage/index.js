@@ -15,8 +15,10 @@ export default function HomePage () {
 
     
     useEffect( () => {
-        dispatch(getUserGroups(sessionUser))
-        dispatch(getUserEvents(sessionUser))
+        if(sessionUser) {
+            dispatch(getUserGroups(sessionUser))
+            dispatch(getUserEvents(sessionUser))
+        }
     },[dispatch, sessionUser])
     if (!sessionUser) {
         return <Redirect to="/" />

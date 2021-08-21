@@ -22,22 +22,12 @@ const IndividualGroup = () => {
     const group = useSelector(state => state.group.allGroups[groupId])
     const [showEditGroupForm, setShowEditGroupForm] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
-    const [inGroup, setInGroup] = useState('')
 
     useEffect( () => {
+        dispatch(fetchGroups())
         dispatch(fetchEvents())
-        dispatch(fetchGroups()).then( () =>{
-            if (sessionUser){
-                dispatch(getUserGroups(sessionUser)).then( () => {
-                    if (sessionGroups[groupId]) {
-                        setInGroup(true)
-                    } else {
-                        setInGroup(false)
-                    }
-                }) 
-            }
-        })
-    },[dispatch, sessionUser, groupId, sessionGroups.userGroups, sessionGroups])
+        if (sessionUser) dispatch(getUserGroups(sessionUser))
+    },[dispatch, sessionUser])
 
     let content = null
 
@@ -53,7 +43,6 @@ const IndividualGroup = () => {
     const joinGroupButton = async() => {
         if (sessionUser) {
             await dispatch(joinGroup(sessionUser.id, groupId))
-            setInGroup(true)
         } else {
             history.push('/login')
         }
@@ -62,7 +51,6 @@ const IndividualGroup = () => {
     const leaveGroupButton = async() => {
         if (sessionUser) {
             await dispatch(leaveGroup(sessionUser.id, groupId))
-            setInGroup(false)
         } else {
             history.push('/login')
         }
@@ -85,8 +73,8 @@ const IndividualGroup = () => {
                             <h3>{group?.location}</h3>
                         </div>
                         <div className="user-join-leave-btn-container">
-                            {(!inGroup || !sessionUser) && <button className="join-leave-group" onClick={() => joinGroupButton()}>Join Group</button>}
-                            {((sessionUser?.id !== group?.organizer) && (inGroup && sessionUser)) && <button className="join-leave-group" onClick={() => leaveGroupButton()}>Leave Group</button>}
+                            {(!sessionGroups?.[groupId]|| !sessionUser) && <button className="join-leave-group" onClick={() => joinGroupButton()}>Join Group</button>}
+                            {((sessionUser?.id !== group?.organizer) && (sessionGroups?.[groupId] && sessionUser)) && <button className="join-leave-group" onClick={() => leaveGroupButton()}>Leave Group</button>}
                             {sessionUser?.id === group?.organizer &&
                             <div>
                             <button onClick={() => setShowEditGroupForm(true)}>Edit Group</button>
