@@ -4,6 +4,9 @@ body {
 }
 
 #navbar {
+    position: sticky;
+    background-color: white;
+    top: 0px;
     padding-bottom: 0.5em;
     border-bottom: 2px solid lightgray;
     min-height: 3rem;
@@ -13,12 +16,13 @@ body {
     font-size: 1.5rem;
 }
 .nav-link {
+    max-height: 27px;
     list-style-type: none;
     display: flex;
     justify-content: space-between;
 }
 
-.user-acc-links > a  {
+.bold-nav-links  {
     padding-right: 1em;
     color: rgba(33,33,33);
     text-decoration: none;
@@ -26,10 +30,42 @@ body {
     font-family: "Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif";
 }
 
-.user-acc-links > a:hover {
+.bold-nav-links:hover {
     color: rgba(0,130,148);
 }
 
 .profile-button li {
     list-style-type: none;
+}
+
+.button {
+    margin: 0.1em;
+    background-color: #f65858;
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem;
+    border: #f65858;
+    border-radius: 0.5em;
+}
+
+.profile-button {
+    margin-right: 6em;
+    align-self: center;
+
+}
+
+.profile-dropdown {
+    position: relative;
+    bottom: 1.2rem
+
+}
+
+.logout-btn {
+    margin: 0.1em;
+    background-color: #f65858;
+    color: white;
+    font-weight: bold;
+    padding: 0.25rem;
+    border: #f65858;
+    border-radius: 0.5em;
 }

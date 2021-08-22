@@ -21,7 +21,6 @@ const CreateEvent = () => {
     const [errors, setErrors] = useState([]);
     const [date, setDate] = useState('')
     const [capacity, setCapacity] = useState('')
-    console.log(date)
   
     if (!sessionUser) {
       history.push('/login')
@@ -98,7 +97,7 @@ const CreateEvent = () => {
               onChange={(e) => setGroupId(e.target.value)}
               required
             >
-                <option  value={-1}>Please Choose a Group</option>
+                <option  value={-1}>Please Choose a Group. If there are none, join or create one!</option>
                 {sessionGroups?.map(group => <option key={group.id} value={group.id}>{group.name}</option>)}
             </select>
           </label>

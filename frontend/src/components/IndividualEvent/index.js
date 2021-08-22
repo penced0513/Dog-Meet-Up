@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory} from "react-router-dom"
+import { useParams, useHistory, NavLink} from "react-router-dom"
 
 import { fetchEvents, deleteEvent, getUserEvents, joinEvent, leaveEvent } from "../../store/eventReducer";
 import { fetchVenues } from '../../store/venueRedurcer';
 import  EditEventForm  from "../../components/EditEventForm"
-import { getUserGroups, joinGroup } from '../../store/groupReducer'; 
+import { getUserGroups } from '../../store/groupReducer'; 
 import './IndividualEvent.css'
 
 const IndividualEvent = () => {
     const dispatch = useDispatch()
     const history = useHistory()
-    const sessionGroups = useSelector(state => state.group.joined)
     const sessionUser = useSelector(state => state.session.user);
     const sessionEvents = useSelector(state => state.event.joined)
     const {eventId} = useParams()
@@ -21,6 +20,8 @@ const IndividualEvent = () => {
     const [inEvent, setInEvent] = useState('')
 
     useEffect( () => {
+        document.getElementById("secondNavBarGroups").setAttribute("class", "passive")
+        document.getElementById("secondNavBarEvents").setAttribute("class", "passive")
         dispatch(fetchEvents())
         dispatch(fetchVenues())
         if (sessionUser){
@@ -42,13 +43,12 @@ const IndividualEvent = () => {
         await dispatch(deleteEvent(eventId))
         history.push('/events')
     }
-    const confirmDelete = <button onClick={handleDelete}>Yes</button>
-    const cancelDelete = <button onClick={() => setShowDelete(false)}>Cancel</button>
+    const confirmDelete = <button className="button" onClick={handleDelete}>Yes</button>
+    const cancelDelete = <button className="button" onClick={() => setShowDelete(false)}>Cancel</button>
 
     const joinEventButton = async() => {
         if (sessionUser) {
             await dispatch(joinEvent(sessionUser.id, eventId))
-            if (!sessionGroups[event.categoryId])  dispatch(joinGroup(sessionUser.id, event.categoryId))
             setInEvent(true)
             dispatch(fetchEvents())
         } else {
@@ -80,22 +80,31 @@ const IndividualEvent = () => {
                     <div className="group-info-right-side">
                         <div className="group-name-location">
                             <h1>{event?.name}</h1>
-                            <h3>{(event && (new Date(event.date)).toString())}</h3>
+                            <h3>{(event && (new Date(event.date).toString().slice(0,24)))}</h3>
+                            <div className="event-host-group">
+                                <p>{`Hosted By: `}</p> 
+                                <NavLink className="group-hosted-by-link" to={`/groups/${event?.Group.id}`}>{event?.Group.name}</NavLink>
+                            </div>
+                            <div className="event-organized-user">
+                                <p className="event-organized-by">{`Organized By:`}</p>
+                                <p>{event?.Group.User.username}</p>
+                            </div>
+
+                        </div>
+                        <div>
+                            {(!inEvent || !sessionUser) && <button className="join-leave-group button" onClick={() => joinEventButton()}>Attend Event</button>}
+                                    {((sessionUser?.id !== event?.hostId) && (inEvent && sessionUser)) && <button className="join-leave-group button" onClick={() => leaveEventButton()}>Leave Event</button>}
+                            {sessionUser?.id === event?.hostId &&
+                                    <div>
+                                    <button className="button" onClick={() => setShowEditEventForm(true)}>Edit Event</button>
+                                    <button className="button" onClick={() => setShowDelete(true) }>Delete Event</button>
+                                {showDelete && <div><div>Are you sure you want to delete this event?</div>{confirmDelete}{cancelDelete}</div>}
+                                    </div>
+                            }
                         </div>
                     </div>
-                    <div>
-                        {(!inEvent || !sessionUser) && <button className="join-leave-group" onClick={() => joinEventButton()}>Join Event</button>}
-                                {((sessionUser?.id !== event?.hostId) && (inEvent && sessionUser)) && <button className="join-leave-group" onClick={() => leaveEventButton()}>Leave Event</button>}
-                        {sessionUser?.id === event?.hostId &&
-                                <div>
-                                <button onClick={() => setShowEditEventForm(true)}>Edit Event</button>
-                                <button onClick={() => setShowDelete(true) }>Delete Event</button>
-                            {showDelete && <div><div>Are you sure you want to delete this event?</div>{confirmDelete}{cancelDelete}</div>}
-                                </div>
-                        }
-                    </div>
                 </div>
-                <div>
+                <div className="event-page-bottom-half">
                     <div className="group-page-description">
                         <h2>What we're about</h2>
                         <p>{event?.description}</p>
@@ -103,7 +112,7 @@ const IndividualEvent = () => {
                     <div>
                         <h2>Attendees ({event?.Rsvps.length})</h2>
                         {event?.Rsvps.map(rsvp => (
-                            <div key={rsvp.id}>{rsvp.User.username}</div>
+                            <div className="attendee "key={rsvp.id}>{rsvp.User.username}</div>
                         ))}
                     </div>
                 </div>
@@ -111,7 +120,7 @@ const IndividualEvent = () => {
         )
     }
     return (
-        <div>
+        <div className="event-entire-page">
             {content}
         </div>
     )

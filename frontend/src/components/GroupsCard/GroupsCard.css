@@ -16,8 +16,12 @@
     display: flex;
     padding: 0.5em 0;
     border-top: 1px solid lightgray;
-    max-width: 640px;
+    width: 640px;
     max-height: 149.19px;
+}
+
+.card-container:hover {
+    cursor: pointer;
 }
 
 .groups-page-description {
@@ -26,8 +30,28 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: rgba(117,117,117);
+    margin-bottom: .3em;
+
 }
 
 .groups-page-desc-container {
     max-height: 10%;
+}
+
+.card-information-container > h4 {
+    margin-top: 0.25em;
+    color: rgba(135,116,87)
+}
+
+.card-information-container > a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+.user-card-members {
+    margin-top: 0.1em;
+    color: rgba(117,117,117);
 }

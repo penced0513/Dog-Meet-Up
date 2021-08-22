@@ -1,4 +1,4 @@
-.active {
+.selected {
     color: rgba(0,130,148);
     text-decoration: underline;
 }
@@ -6,4 +6,18 @@
 .passive {
     color: rgba(117,117,117);
     text-decoration: none;
+}
+
+#secondNavBarGroups,
+#secondNavBarEvents {
+    font-weight: bold;
+    font-size: 2em;
+    padding-left: 1em;
+}
+
+.second-navbar-container {
+    padding-bottom: 1em;
+    background-color: white;
+    position: sticky;
+    top: 58px;
 }

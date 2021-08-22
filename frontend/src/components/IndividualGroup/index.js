@@ -24,6 +24,8 @@ const IndividualGroup = () => {
     const [showDelete, setShowDelete] = useState(false)
 
     useEffect( () => {
+        document.getElementById("secondNavBarGroups").setAttribute("class", "passive")
+        document.getElementById("secondNavBarEvents").setAttribute("class", "passive")
         dispatch(fetchGroups())
         dispatch(fetchEvents())
         if (sessionUser) dispatch(getUserGroups(sessionUser))
@@ -37,8 +39,9 @@ const IndividualGroup = () => {
         
 
     }
-    const confirmDelete = <button onClick={handleDelete}>Yes</button>
-    const cancelDelete = <button onClick={() => setShowDelete(false)}>Cancel</button>
+
+    const confirmDelete = <button className="button" onClick={handleDelete}>Yes</button>
+    const cancelDelete = <button className="button" onClick={() => setShowDelete(false)}>Cancel</button>
 
     const joinGroupButton = async() => {
         if (sessionUser) {
@@ -69,22 +72,24 @@ const IndividualGroup = () => {
                     </div>
                     <div className="group-info-right-side">
                         <div className="group-name-location">
-                            <h1>{group?.name}</h1>
-                            <h3>{group?.location}</h3>
+                            <h1 className="group-page-name">{group?.name}</h1>
+                            <h3 className="group-page-location">{group?.location}</h3>
+                            <h5 className="user-card-members">{`${group?.joinedGroups?.length} ${group?.joinedGroups?.length === 1 ? "member" : "members"}`}</h5>
+                            <h4>{`Created by: ${group?.User.username}`}</h4>
                         </div>
                         <div className="user-join-leave-btn-container">
-                            {(!sessionGroups?.[groupId]|| !sessionUser) && <button className="join-leave-group" onClick={() => joinGroupButton()}>Join Group</button>}
-                            {((sessionUser?.id !== group?.organizer) && (sessionGroups?.[groupId] && sessionUser)) && <button className="join-leave-group" onClick={() => leaveGroupButton()}>Leave Group</button>}
+                            {(!sessionGroups?.[groupId]|| !sessionUser) && <button className="join-leave-group button" onClick={() => joinGroupButton()}>Join Group</button>}
+                            {((sessionUser?.id !== group?.organizer) && (sessionGroups?.[groupId] && sessionUser)) && <button className="join-leave-group button" onClick={() => leaveGroupButton()}>Leave Group</button>}
                             {sessionUser?.id === group?.organizer &&
                             <div>
-                            <button onClick={() => setShowEditGroupForm(true)}>Edit Group</button>
-                            <button onClick={() => setShowDelete(true) }>Delete Group</button>
+                            <button className="button" onClick={() => setShowEditGroupForm(true)}>Edit Group</button>
+                            <button className="button" onClick={() => setShowDelete(true) }>Delete Group</button>
                             {showDelete && <div><div>Are you sure you want to delete this group?</div>{confirmDelete}{cancelDelete}</div>}
                             </div>}
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className="group-bottom-half-container">
                     <div className="group-page-description">
                         <h2>What we're about</h2>
                         <p>{group?.description}</p>
@@ -92,8 +97,10 @@ const IndividualGroup = () => {
                     <div>
                         <h2>Upcoming Events</h2>
                         <div>
-                        {groupEvents?.map(event => (
-                            <Card event={event} key={event.id}></Card>
+                        {groupEvents?.slice(0,5).map(event => (
+                            <div key={event.id} className="group-page-events" >
+                                <Card event={event} ></Card>
+                            </div>
                         ))}     
                         </div>
                     </div>
@@ -105,7 +112,7 @@ const IndividualGroup = () => {
     }
 
     return (
-        <div>
+        <div className="entire-group-page">
             {content}
         </div>
     )

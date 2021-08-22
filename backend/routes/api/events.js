@@ -4,7 +4,7 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
 const { restoreUser } = require('../../utils/auth');
-const { Event, Rsvp, User } = require('../../db/models');
+const { Event, Rsvp, User, Group } = require('../../db/models');
 
 const router = express.Router();
 
@@ -15,12 +15,20 @@ router.get('/', restoreUser, asyncHandler( async(req,res) => {
                 [Op.gt]: Date.now()
             }
         },
-        include: {
-            model: Rsvp,
-            include: {
-                model: User
+        include: [
+            {
+                model: Rsvp,
+                include: {
+                    model: User
+                },
+            },
+            {
+                model: Group,
+                include: {
+                    model: User
+                }
             }
-        }
+        ]
     })
     return res.json(events)
 }));
@@ -31,9 +39,25 @@ router.post('/new', restoreUser, asyncHandler(async(req,res) => {
         imgURL = "https://www.vhv.rs/dpng/d/487-4871907_grey-x-icon-png-transparent-png.png"
     }
     const event = await Event.create({ name, img: imgURL, venueId, categoryId: groupId, description, date, capacity, hostId: userId})
+    const createdEvent = await Event.findByPk(event.id, {
+        include: [
+            {
+                model: Rsvp,
+                include: {
+                    model: User
+                },
+            },
+            {
+                model: Group,
+                include: {
+                    model: User
+                }
+            }
+        ]
+    })
 
-    // await UserGroup.create({ userId, groupId: group.id})
-    return res.json(event)
+    await Rsvp.create({ userId, eventId: event.id})
+    return res.json(createdEvent)
 }))
 
 router.put('/:id', restoreUser, asyncHandler(async(req,res) => {
@@ -42,7 +66,22 @@ router.put('/:id', restoreUser, asyncHandler(async(req,res) => {
     if (!imgURL) {
         imgURL = "https://www.vhv.rs/dpng/d/487-4871907_grey-x-icon-png-transparent-png.png"
     }
-    const event = await Event.findByPk(id)
+    const event = await Event.findByPk(id, {
+        include: [
+            {
+                model: Rsvp,
+                include: {
+                    model: User
+                },
+            },
+            {
+                model: Group,
+                include: {
+                    model: User
+                }
+            }
+        ]
+    })
     await event.update({ name, imgURL, venueId, groupId, description, date, capacity, userId})
     
     // await UserGroup.create({ userId, groupId: group.id})

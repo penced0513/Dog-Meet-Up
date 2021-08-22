@@ -15,6 +15,7 @@ import EventsPage from "./components/EventsPage";
 import IndividualEvent from "./components/IndividualEvent"
 import CreateEvent from './components/CreateEventForm'
 import SecondNavBar from "./components/SecondNavBar";
+import FourOFourPage from './components/Fourofourpage'
 
 function App() {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ function App() {
           </Route>
           <Route exact path="/groups/:groupId">
             <Navigation isLoaded={isLoaded} />
+            <SecondNavBar></SecondNavBar>
             <IndividualGroup />
           </Route>
           <Route exact path="/events">
@@ -67,7 +69,13 @@ function App() {
           </Route>
           <Route exact path="/events/:eventId">
             <Navigation isLoaded={isLoaded} />
+            <SecondNavBar></SecondNavBar>
             <IndividualEvent />
+          </Route>
+          <Route path="/">
+            <Navigation isLoaded={isLoaded} />
+            <SecondNavBar></SecondNavBar>
+            <FourOFourPage />
           </Route>
         </Switch>
       )}

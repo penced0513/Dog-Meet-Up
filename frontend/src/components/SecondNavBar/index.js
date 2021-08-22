@@ -4,7 +4,7 @@ import './secondNavBar.css'
 export default function SecondNavBar () {
 
     return (
-        <div>
+        <div className="second-navbar-container">
             <NavLink id="secondNavBarGroups" to="/groups">Groups</NavLink>
             <NavLink id="secondNavBarEvents" to="/events">Events</NavLink>
         </div>

@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { check } = require('express-validator');
@@ -49,7 +51,11 @@ router.get('/:userId/groups', restoreUser, asyncHandler(async(req,res) => {
   const userGroups = await User.findAll({
     include: { 
       model: Group,
-      as: "joinedGroups"
+      as: "joinedGroups",
+      include: {
+          model: User,
+          as: "joinedGroups"
+        }
     },
     where: {
       id: userId
@@ -83,9 +89,14 @@ router.get('/:userId/events', restoreUser, asyncHandler(async(req,res) => {
   const userEvents = await Rsvp.findAll({
     include: { 
       model: Event,
+      where: {
+        date: {
+          [Op.gt]: Date.now()
+        }
+      }
     },
     where: {
-      userId
+      userId,
     },
 })
   

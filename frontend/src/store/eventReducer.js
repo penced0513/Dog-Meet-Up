@@ -109,7 +109,6 @@ export const joinEvent = (userId, eventId) => async dispatch => {
     })
     if (res.ok) {
       const event = await res.json()
-      console.log('event',event)
       dispatch(addUserEvent(event))
       return event;
     } 
