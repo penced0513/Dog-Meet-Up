@@ -2,12 +2,22 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 
 const { restoreUser } = require('../../utils/auth');
-const { Group, UserGroup, Rsvp, Event } = require('../../db/models');
+const { User, Group, UserGroup, Rsvp, Event } = require('../../db/models');
 
 const router = express.Router();
 
 router.get('/', restoreUser, asyncHandler( async(req,res) => {
-    const groups = await Group.findAll()
+    const groups = await Group.findAll({
+        include: [
+        {
+            model: User,
+            as: "joinedGroups"
+        },
+        {
+            model: User
+        }
+        ]
+    })
     return res.json(groups)
 }));
 
@@ -23,9 +33,20 @@ router.post('/new', restoreUser, asyncHandler(async(req,res) => {
         imgURL = "https://www.vhv.rs/dpng/d/487-4871907_grey-x-icon-png-transparent-png.png"
     }
     const group = await Group.create({ name, img:imgURL, location, description, organizer: userId})
+    const createdGroup = await Group.findByPk(group.id, {
+        include: [
+            {
+                model: User,
+                as: "joinedGroups"
+            },
+            {
+                model: User
+            }
+        ]
+    })
 
     await UserGroup.create({ userId, groupId: group.id})
-    return res.json(group)
+    return res.json(createdGroup)
 }))
 
 router.put('/:id', restoreUser, asyncHandler(async(req,res) => {
@@ -34,7 +55,17 @@ router.put('/:id', restoreUser, asyncHandler(async(req,res) => {
     if (!imgURL) {
         imgURL = "https://www.vhv.rs/dpng/d/487-4871907_grey-x-icon-png-transparent-png.png"
     }
-    const group = await Group.findByPk(id)
+    const group = await Group.findByPk(id, {
+        include:  [
+            {
+                model: User,
+                as: "joinedGroups"
+            },
+            {
+                model: User
+            }
+            ] 
+    })
     await group.update({ name, img:imgURL, location, description, organizer: userId})
     return res.json(group)
 }))
@@ -62,7 +93,6 @@ router.delete('/:id', restoreUser, asyncHandler(async(req,res) => {
     events.forEach(async(event) => {
         event.destroy()
     })
-    console.log('events', events)
     const group = await Group.findByPk(id)
     await group.destroy()
     res.json(events)

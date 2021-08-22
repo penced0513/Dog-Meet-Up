@@ -3,9 +3,14 @@
     max-width: 600px;
 }
 
+#root, html, body, .App {
+    height: 100%;
+}
+
 .group-page-container {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .group-info-container {
@@ -30,6 +35,34 @@
 }
 
 .group-page-description {
-    align-self: center;
     text-align: center;
+    max-width: 40%;
+    word-wrap: break-word;
+}
+
+.group-bottom-half-container {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(245, 245, 245);
+    flex-grow: 1;
+}
+
+.group-page-events {
+    background-color: white;
+    margin-bottom: 1rem;
+}
+
+.entire-group-page {
+    height: 100%;
+}
+
+.group-page-location {
+    margin: 0;
+    padding: 0;
+}
+
+.group-page-name {
+    margin: 0;
+    padding: 1rem 0;
+
 }

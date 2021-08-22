@@ -15,32 +15,21 @@ const IndividualGroup = () => {
     const sessionUser = useSelector(state => state.session.user);
     const sessionGroups = useSelector(state => state.group.joined)
     const {groupId} = useParams()
-    const groupEvents = useSelector(state => Object.values(state.event.allEvents).filter(event => event.categoryId == groupId).sort((a,b) => {
+    const groupEvents = useSelector(state => Object.values(state.event.allEvents).filter(event => event.categoryId === Number(groupId)).sort((a,b) => {
         if (a.date < b.date) return -1
         return 1
     }))
     const group = useSelector(state => state.group.allGroups[groupId])
     const [showEditGroupForm, setShowEditGroupForm] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
-    const [inGroup, setInGroup] = useState('')
-
-    // const groupEvents = Object.values(getGroupEvents(groupId))
-
 
     useEffect( () => {
+        document.getElementById("secondNavBarGroups").setAttribute("class", "passive")
+        document.getElementById("secondNavBarEvents").setAttribute("class", "passive")
+        dispatch(fetchGroups())
         dispatch(fetchEvents())
-        dispatch(fetchGroups()).then( () =>{
-            if (sessionUser){
-                dispatch(getUserGroups(sessionUser)).then( () => {
-                    if (sessionGroups[groupId]) {
-                        setInGroup(true)
-                    } else {
-                        setInGroup(false)
-                    }
-                }) 
-            }
-        })
-    },[dispatch, sessionUser, groupId, sessionGroups.userGroups, sessionGroups])
+        if (sessionUser) dispatch(getUserGroups(sessionUser))
+    },[dispatch, sessionUser])
 
     let content = null
 
@@ -50,13 +39,13 @@ const IndividualGroup = () => {
         
 
     }
-    const confirmDelete = <button onClick={handleDelete}>Yes</button>
-    const cancelDelete = <button onClick={() => setShowDelete(false)}>Cancel</button>
+
+    const confirmDelete = <button className="button" onClick={handleDelete}>Yes</button>
+    const cancelDelete = <button className="button" onClick={() => setShowDelete(false)}>Cancel</button>
 
     const joinGroupButton = async() => {
         if (sessionUser) {
             await dispatch(joinGroup(sessionUser.id, groupId))
-            setInGroup(true)
         } else {
             history.push('/login')
         }
@@ -65,7 +54,6 @@ const IndividualGroup = () => {
     const leaveGroupButton = async() => {
         if (sessionUser) {
             await dispatch(leaveGroup(sessionUser.id, groupId))
-            setInGroup(false)
         } else {
             history.push('/login')
         }
@@ -84,22 +72,24 @@ const IndividualGroup = () => {
                     </div>
                     <div className="group-info-right-side">
                         <div className="group-name-location">
-                            <h1>{group?.name}</h1>
-                            <h3>{group?.location}</h3>
+                            <h1 className="group-page-name">{group?.name}</h1>
+                            <h3 className="group-page-location">{group?.location}</h3>
+                            <h5 className="user-card-members">{`${group?.joinedGroups?.length} ${group?.joinedGroups?.length === 1 ? "member" : "members"}`}</h5>
+                            <h4>{`Created by: ${group?.User.username}`}</h4>
                         </div>
                         <div className="user-join-leave-btn-container">
-                            {(!inGroup || !sessionUser) && <button className="join-leave-group" onClick={() => joinGroupButton()}>Join Group</button>}
-                            {((sessionUser?.id !== group?.organizer) && (inGroup && sessionUser)) && <button className="join-leave-group" onClick={() => leaveGroupButton()}>Leave Group</button>}
+                            {(!sessionGroups?.[groupId]|| !sessionUser) && <button className="join-leave-group button" onClick={() => joinGroupButton()}>Join Group</button>}
+                            {((sessionUser?.id !== group?.organizer) && (sessionGroups?.[groupId] && sessionUser)) && <button className="join-leave-group button" onClick={() => leaveGroupButton()}>Leave Group</button>}
                             {sessionUser?.id === group?.organizer &&
                             <div>
-                            <button onClick={() => setShowEditGroupForm(true)}>Edit Group</button>
-                            <button onClick={() => setShowDelete(true) }>Delete Group</button>
+                            <button className="button" onClick={() => setShowEditGroupForm(true)}>Edit Group</button>
+                            <button className="button" onClick={() => setShowDelete(true) }>Delete Group</button>
                             {showDelete && <div><div>Are you sure you want to delete this group?</div>{confirmDelete}{cancelDelete}</div>}
                             </div>}
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className="group-bottom-half-container">
                     <div className="group-page-description">
                         <h2>What we're about</h2>
                         <p>{group?.description}</p>
@@ -107,8 +97,10 @@ const IndividualGroup = () => {
                     <div>
                         <h2>Upcoming Events</h2>
                         <div>
-                        {groupEvents?.map(event => (
-                            <Card event={event} key={event.id}></Card>
+                        {groupEvents?.slice(0,5).map(event => (
+                            <div key={event.id} className="group-page-events" >
+                                <Card event={event} ></Card>
+                            </div>
                         ))}     
                         </div>
                     </div>
@@ -120,7 +112,7 @@ const IndividualGroup = () => {
     }
 
     return (
-        <div>
+        <div className="entire-group-page">
             {content}
         </div>
     )

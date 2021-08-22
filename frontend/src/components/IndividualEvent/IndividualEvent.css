@@ -1,0 +1,44 @@
+.event-page-bottom-half {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(245, 245, 245);
+    flex-grow: 1;
+}
+
+.event-entire-page {
+    height: 100%;
+}
+
+.attendee {
+    margin-top: 0.5em;
+    background-color: white;
+    text-align: center;
+}
+
+.event-host-group {
+    display: flex;
+}
+
+.event-host-group > p {
+    margin: 0;
+    padding: 0;
+    padding-right: 0.25rem;
+    font-weight: bold;
+}
+
+.event-organized-by {
+    margin: 0;
+    padding: 0;
+    padding-top: 1rem;
+    padding-right: 0.25rem;
+    font-weight: bold;
+}
+
+.event-organized-user {
+    display: flex;
+}
+
+.group-hosted-by-link {
+    text-decoration: none;
+    color: #00a2c7;
+}

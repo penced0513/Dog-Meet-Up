@@ -18,18 +18,17 @@ function Navigation({ isLoaded }){
   if (sessionUser) {
     sessionLinks = (
       <div>
-        <NavLink to="/groups/new">Create a Group</NavLink>
-        <NavLink to="/groups">Groups</NavLink>
-        <NavLink to="/events">Events</NavLink>
+        {/* <NavLink to="/groups/new">Start a Group</NavLink> */}
         <ProfileButton className="profile-btn" user={sessionUser} />
       </div>
     );
   } else {
     sessionLinks = (
       <div className="user-acc-links">
-        <NavLink to="/login">Log In</NavLink>
-        <NavLink to="/signup">Sign Up</NavLink>
-        <NavLink to="" onClick={loginDemo}>Demo</NavLink>
+        <NavLink className="bold-nav-links" to="/login">Log In</NavLink>
+        <NavLink className="bold-nav-links" to="/signup">Sign Up</NavLink>
+        <NavLink className="bold-nav-links" to="" onClick={loginDemo}>Demo</NavLink>
+        <NavLink className="bold-nav-links" to="about-me">About</NavLink>
       </div>
     );
   }
@@ -37,7 +36,7 @@ function Navigation({ isLoaded }){
   return (
     <ul id="navbar">
       <li className="nav-link">
-        <NavLink className="nav-home" exact to="/home">Home</NavLink>
+        <NavLink className="nav-home bold-nav-links" exact to="/home">Home</NavLink>
         {isLoaded && sessionLinks}
       </li>
     </ul>

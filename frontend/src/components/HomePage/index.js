@@ -1,10 +1,11 @@
 import { useSelector,useDispatch } from 'react-redux';
 import { useEffect } from "react";
 import { Redirect } from 'react-router-dom';
-import { getUserGroups, fetchGroups } from '../../store/groupReducer'; 
+import { getUserGroups } from '../../store/groupReducer'; 
 import { getUserEvents } from "../../store/eventReducer";
 import Card from '../EventsCard'
 import GroupCard from '../GroupsCard'
+import './HomePage.css'
 
 
 export default function HomePage () {
@@ -15,19 +16,24 @@ export default function HomePage () {
 
     
     useEffect( () => {
-        dispatch(getUserGroups(sessionUser))
-        dispatch(getUserEvents(sessionUser))
-    },[dispatch])
+        document.getElementById("secondNavBarGroups").setAttribute("class", "passive")
+        document.getElementById("secondNavBarEvents").setAttribute("class", "passive")
+        if(sessionUser) {
+            dispatch(getUserGroups(sessionUser))
+            dispatch(getUserEvents(sessionUser))
+        }
+    },[dispatch, sessionUser])
     if (!sessionUser) {
         return <Redirect to="/" />
     }
+
     return (
-        <div>
+        <div className="home-page-container">
             <div>
-            <h2>Your Groups</h2>
-                {sessionGroups.map(group => (
-                    <GroupCard group={group} key={group.id}></GroupCard>
-                ))}
+                <h2>Your Groups</h2>
+                    {sessionGroups.map(group => (
+                        <GroupCard group={group} key={group.id}></GroupCard>
+                    ))}
             </div>
             <div>
                 <h2>Your Events</h2>
