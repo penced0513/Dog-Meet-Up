@@ -24,6 +24,10 @@ const IndividualGroup = () => {
     const [showDelete, setShowDelete] = useState(false)
 
     useEffect( () => {
+        window.scrollTo(0, 0);
+    }, [])
+    
+    useEffect( () => {
         document.getElementById("secondNavBarGroups").setAttribute("class", "passive")
         document.getElementById("secondNavBarEvents").setAttribute("class", "passive")
         dispatch(fetchGroups())

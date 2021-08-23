@@ -12,20 +12,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       img: {
         type: Sequelize.TEXT
       },
       description: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: false,
       },
       location: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       organizer: {
         type: Sequelize.INTEGER,
-        references: { model: "Users"}
+        references: { model: "Users"},
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

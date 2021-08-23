@@ -28,7 +28,7 @@ function Navigation({ isLoaded }){
         <NavLink className="bold-nav-links" to="/login">Log In</NavLink>
         <NavLink className="bold-nav-links" to="/signup">Sign Up</NavLink>
         <NavLink className="bold-nav-links" to="" onClick={loginDemo}>Demo</NavLink>
-        <NavLink className="bold-nav-links" to="about-me">About</NavLink>
+        <NavLink className="bold-nav-links" to="/about-me">About</NavLink>
       </div>
     );
   }
