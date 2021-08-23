@@ -40,6 +40,7 @@ const CreateEvent = () => {
         if (description.length < 10) validationErrors.push("Please provide a more detailed description")
         if (capacity % 1 !== 0) validationErrors.push("Capacity must be a whole number")
         if (venueId === -1) validationErrors.push("Please select a given location")
+        if (Date.parse(date) < Date.now()) validationErrors.push("Date must be in the future.")
         if (groupId === -1) validationErrors.push("Please select a group. If there are none listed, try joining or creating one!")
         if (validationErrors.length) {
             setErrors(validationErrors)
