@@ -82,9 +82,9 @@ router.put('/:id', restoreUser, asyncHandler(async(req,res) => {
             }
         ]
     })
-    await event.update({ name, imgURL, venueId, groupId, description, date, capacity, userId})
+    await event.update({ name, img:imgURL, venueId, groupId, description, date, capacity, userId})
     
-    // await UserGroup.create({ userId, groupId: group.id})
+    await Rsvp.create({ userId, eventId: event.id})
     return res.json(event)
 }))
 
