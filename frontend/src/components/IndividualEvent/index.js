@@ -37,6 +37,11 @@ const IndividualEvent = () => {
         }
     },[dispatch, sessionUser, eventId, sessionEvents])
 
+    useEffect( () => {
+        window.scrollTo(0, 0);
+    }, [])
+
+    
     let content = null
 
     const handleDelete = async() => {
