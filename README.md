@@ -1,4 +1,4 @@
-# solo-project
+# Dog Meet Up
 
 # Database Schema
 This is the current goal for the database.
